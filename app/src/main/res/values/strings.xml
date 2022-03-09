@@ -20,5 +20,7 @@
     <string name="txt_ultra_violata">Ultra Violata</string>
     <string name="visibilty_value">115 m</string>
     <string name="txt_visibilty">Visibilty</string>
+    <string name="txt_day">Sun</string>
+    <string name="daily_status">clear sky</string>
 
 </resources>

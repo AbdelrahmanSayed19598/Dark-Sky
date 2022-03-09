@@ -10,7 +10,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import com.example.weatherforecast.alerts.AlertFragment
 import com.example.weatherforecast.favorite.FavoriteFragment
-import com.example.weatherforecast.homescreen.HomeFragment
+import com.example.weatherforecast.homescreen.view.HomeFragment
 import com.example.weatherforecast.settings.SettingFragment
 import com.google.android.material.navigation.NavigationView
 

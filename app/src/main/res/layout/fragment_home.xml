@@ -104,7 +104,7 @@
                     android:layout_width="90dp"
                     android:layout_height="90dp"
                     android:layout_marginTop="8dp"
-                    android:src="@drawable/ic_baseline_wb_sunny_24"
+                    android:src="@drawable/ic_sun_svgrepo_com"
                     app:layout_constraintEnd_toEndOf="@+id/temprature"
                     app:layout_constraintStart_toStartOf="@+id/temprature"
                     app:layout_constraintTop_toBottomOf="@+id/temprature" />
