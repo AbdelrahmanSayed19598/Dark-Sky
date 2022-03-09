@@ -3,10 +3,18 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/ITI/kotlen/weatherforecast/app/src/main/res/layout/activity_main.xml" value="0.17074275362318841" />
+        <entry key="..\:/ITI/kotlen/weatherforecast/app/src/main/res/drawable/card_background.xml" value="0.141" />
+        <entry key="..\:/ITI/kotlen/weatherforecast/app/src/main/res/drawable/ic_baseline_cloud_24.xml" value="0.1345" />
+        <entry key="..\:/ITI/kotlen/weatherforecast/app/src/main/res/drawable/ic_baseline_visibility_24.xml" value="0.1345" />
+        <entry key="..\:/ITI/kotlen/weatherforecast/app/src/main/res/drawable/ic_baseline_watch_later_24.xml" value="0.1345" />
+        <entry key="..\:/ITI/kotlen/weatherforecast/app/src/main/res/drawable/ic_humidity_svgrepo_com.xml" value="0.1345" />
+        <entry key="..\:/ITI/kotlen/weatherforecast/app/src/main/res/drawable/ic_launcher_background.xml" value="0.141" />
+        <entry key="..\:/ITI/kotlen/weatherforecast/app/src/main/res/drawable/ic_pressure_svgrepo_com.xml" value="0.1345" />
+        <entry key="..\:/ITI/kotlen/weatherforecast/app/src/main/res/drawable/ic_wind_svgrepo_com.xml" value="0.1345" />
+        <entry key="..\:/ITI/kotlen/weatherforecast/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/ITI/kotlen/weatherforecast/app/src/main/res/layout/fragment_alert.xml" value="0.17074275362318841" />
         <entry key="..\:/ITI/kotlen/weatherforecast/app/src/main/res/layout/fragment_favorite.xml" value="0.17074275362318841" />
-        <entry key="..\:/ITI/kotlen/weatherforecast/app/src/main/res/layout/fragment_home.xml" value="0.17074275362318841" />
+        <entry key="..\:/ITI/kotlen/weatherforecast/app/src/main/res/layout/fragment_home.xml" value="0.22" />
         <entry key="..\:/ITI/kotlen/weatherforecast/app/src/main/res/layout/fragment_setting.xml" value="0.17074275362318841" />
         <entry key="..\:/ITI/kotlen/weatherforecast/app/src/main/res/layout/nav_header.xml" value="0.1515625" />
         <entry key="..\:/ITI/kotlen/weatherforecast/app/src/main/res/menu/nav_menu.xml" value="0.1515625" />

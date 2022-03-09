@@ -75,7 +75,7 @@ class MainActivity : AppCompatActivity() {
     private fun replaceFragment(fragment : Fragment, title : String){
         val fragmentManager = supportFragmentManager
         val frahmentTransaction =fragmentManager.beginTransaction()
-        frahmentTransaction.replace(R.id.frameLayout,fragment)
+        frahmentTransaction.replace(R.id.openning_fragment_home,fragment)
         frahmentTransaction.commit()
         setTitle(title)
     }
