@@ -5,10 +5,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherforecast.R
+import com.example.weatherforecast.data.response.Hourly
 import com.example.weatherforecast.model.HoursPojo
 import kotlinx.android.synthetic.main.hourly_weather_row.view.*
+import java.text.SimpleDateFormat
+import java.util.*
 
-class HourlyAdapter (val hoursPojo: List<HoursPojo>): RecyclerView.Adapter<HourlyAdapter.MyViewHolder>() {
+class HourlyAdapter (val hoursPojo: List<Hourly>): RecyclerView.Adapter<HourlyAdapter.MyViewHolder>() {
     class MyViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
         val hoursTxt =itemView.txtHours!!
         val imgHourly =itemView.imgHourly!!
@@ -21,9 +24,16 @@ class HourlyAdapter (val hoursPojo: List<HoursPojo>): RecyclerView.Adapter<Hourl
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.hoursTxt.text = hoursPojo[position].hours
-        holder.imgHourly.setImageResource(hoursPojo[position].img)
-        holder.tempratureTxt.text = hoursPojo[position].tempreture
+        holder.hoursTxt.text = timeFormat( hoursPojo[position].dt.toInt())
+       // holder.imgHourly.setImageResource(hoursPojo[position].img)
+        holder.tempratureTxt.text = (hoursPojo[position].temp.toInt()).toString()+"°c"
+    }
+
+    private fun timeFormat(millisSeconds:Int ): String {
+        val calendar = Calendar.getInstance()
+        calendar.setTimeInMillis((millisSeconds * 1000).toLong())
+        val format = SimpleDateFormat("hh:00 aaa")
+        return format.format(calendar.time)
     }
 
     override fun getItemCount(): Int {

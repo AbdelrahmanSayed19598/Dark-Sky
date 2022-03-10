@@ -1,19 +1,28 @@
 package com.example.weatherforecast.homescreen.view
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.coroutineScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherforecast.R
+import com.example.weatherforecast.data.ApiWeatherService
+import com.example.weatherforecast.data.RetrofitHelper
+import com.example.weatherforecast.data.response.Current
 import com.example.weatherforecast.model.HoursPojo
 import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.coroutines.*
+import retrofit2.create
 
 
 class HomeFragment : Fragment() {
     val hoursPojo = ArrayList<HoursPojo>()
+    var job: Job? =null;
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -40,36 +49,44 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        hoursPojo.add(HoursPojo("1 am",R.drawable.ic_moon_svgrepo_com,"25 c"))
-        hoursPojo.add( HoursPojo("2 am",R.drawable.ic_moon_svgrepo_com,"25 c"))
-        hoursPojo.add(HoursPojo("3 am",R.drawable.ic_moon_svgrepo_com,"25 c"))
-        hoursPojo.add(HoursPojo("4 am",R.drawable.ic_moon_svgrepo_com,"25 c"))
-        hoursPojo.add(HoursPojo("5 am",R.drawable.ic_moon_svgrepo_com,"25 c"))
-        hoursPojo.add(HoursPojo("6 am",R.drawable.ic_moon_svgrepo_com,"25 c"))
-        hoursPojo.add(HoursPojo("7 am",R.drawable.ic_moon_svgrepo_com,"25 c"))
-        hoursPojo.add(HoursPojo("8 am",R.drawable.ic_moon_svgrepo_com,"25 c"))
-        hoursPojo.add(HoursPojo("9 am",R.drawable.ic_moon_svgrepo_com,"25 c"))
-        hoursPojo.add(HoursPojo("10 am",R.drawable.ic_baseline_wb_sunny_24,"25 c"))
-        hoursPojo.add(HoursPojo("11 am",R.drawable.ic_moon_svgrepo_com,"25 c"))
-        hoursPojo.add(HoursPojo("12 am",R.drawable.ic_moon_svgrepo_com,"25 c"))
-        hoursPojo.add(HoursPojo("1 pm",R.drawable.ic_moon_svgrepo_com,"25 c"))
-        hoursPojo.add(HoursPojo("2 pm",R.drawable.ic_moon_svgrepo_com,"25 c"))
-        hoursPojo.add(HoursPojo("3 pm",R.drawable.ic_moon_svgrepo_com,"25 c"))
-        hoursPojo.add(HoursPojo("4 pm",R.drawable.ic_moon_svgrepo_com,"25 c"))
-        hoursPojo.add(HoursPojo("5 pm",R.drawable.ic_moon_svgrepo_com,"25 c"))
-        hoursPojo.add(HoursPojo("6 pm",R.drawable.ic_moon_svgrepo_com,"25 c"))
-        hoursPojo.add(HoursPojo("7 pm",R.drawable.ic_moon_svgrepo_com,"25 c"))
-        hoursPojo.add(HoursPojo("8 pm",R.drawable.ic_moon_svgrepo_com,"25 c"))
-        hoursPojo.add(HoursPojo("9 pm",R.drawable.ic_moon_svgrepo_com,"25 c"))
-        hoursPojo.add(HoursPojo("10 pm",R.drawable.ic_moon_svgrepo_com,"25 c"))
-        hoursPojo.add(HoursPojo("11 pm",R.drawable.ic_moon_svgrepo_com,"25 c"))
-        hoursPojo.add(HoursPojo("12 pm",R.drawable.ic_moon_svgrepo_com,"25 c"))
 
         hourly_recycler.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL,false)
+        hourly_recycler.hasFixedSize()
 
 
-        val myadaptet = HourlyAdapter(hoursPojo)
-        hourly_recycler.adapter = myadaptet
+
+        lifecycle.coroutineScope.launch{
+            job = CoroutineScope(Dispatchers.IO).launch {
+                val weatherData =RetrofitHelper.getInstance().create(ApiWeatherService::class.java)
+                val response = weatherData.getWeather(33.44,-94.04)
+                withContext(Dispatchers.Main){
+                    if(response.isSuccessful){
+                        setData(response.body()?.current!!)
+                        val myadaptet = HourlyAdapter(response.body()?.hourly?: emptyList())
+
+                        hourly_recycler.adapter = myadaptet
+                    }
+                }
+            }
+        }
+
+
+
 
     }
+
+private fun setData(it:Current){
+
+
+
+    txt_weather.text = it.weather.get(0).main.toString()
+    temprature.text = it.temp.toString()
+    temprature_unit.text ="°c"
+    txt_cloud_value.text = it.clouds.toString()+ " %"
+    txt_pressure_value.text = it.pressure.toString()+ "hpa"
+    txt_humiditly_value.text = it.humidity.toString()+ " %"
+    txt_wind_value.text = it.windSpeed.toString()+ " m/s"
+    txt_visabilty_value.text =it.visibility.toString()+ " m"
+
+}
 }
