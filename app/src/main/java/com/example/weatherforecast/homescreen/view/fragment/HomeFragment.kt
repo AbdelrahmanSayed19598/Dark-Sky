@@ -1,7 +1,6 @@
-package com.example.weatherforecast.homescreen.view
+package com.example.weatherforecast.homescreen.view.fragment
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -13,14 +12,15 @@ import com.example.weatherforecast.R
 import com.example.weatherforecast.data.ApiWeatherService
 import com.example.weatherforecast.data.RetrofitHelper
 import com.example.weatherforecast.data.response.Current
-import com.example.weatherforecast.model.HoursPojo
+import com.example.weatherforecast.homescreen.view.adapter.DailyAdapter
+import com.example.weatherforecast.homescreen.view.adapter.HourlyAdapter
 import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.hourly_weather_row.*
 import kotlinx.coroutines.*
-import retrofit2.create
+import java.util.*
 
 
 class HomeFragment : Fragment() {
-    val hoursPojo = ArrayList<HoursPojo>()
     var job: Job? =null;
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,6 +53,9 @@ class HomeFragment : Fragment() {
         hourly_recycler.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL,false)
         hourly_recycler.hasFixedSize()
 
+        daily_recycler.layoutManager = LinearLayoutManager(context,RecyclerView.VERTICAL,false)
+        daily_recycler.hasFixedSize()
+
 
 
         lifecycle.coroutineScope.launch{
@@ -61,10 +64,15 @@ class HomeFragment : Fragment() {
                 val response = weatherData.getWeather(33.44,-94.04)
                 withContext(Dispatchers.Main){
                     if(response.isSuccessful){
-                        setData(response.body()?.current!!)
-                        val myadaptet = HourlyAdapter(response.body()?.hourly?: emptyList())
 
-                        hourly_recycler.adapter = myadaptet
+                        city_name.text = response.body()?.timezone.toString().split("/")[1]
+                        setData(response.body()?.current!!)
+
+                        val hourlyAdapter = HourlyAdapter(response.body()?.hourly?: emptyList())
+                        hourly_recycler.adapter = hourlyAdapter
+
+                        val dailyAdapter = DailyAdapter(response.body()?.daily?: emptyList())
+                        daily_recycler.adapter = dailyAdapter
                     }
                 }
             }
@@ -76,9 +84,7 @@ class HomeFragment : Fragment() {
     }
 
 private fun setData(it:Current){
-
-
-
+    txt_date.text = dateFormat(it.dt.toInt())
     txt_weather.text = it.weather.get(0).main.toString()
     temprature.text = it.temp.toString()
     temprature_unit.text ="°c"
@@ -87,6 +93,21 @@ private fun setData(it:Current){
     txt_humiditly_value.text = it.humidity.toString()+ " %"
     txt_wind_value.text = it.windSpeed.toString()+ " m/s"
     txt_visabilty_value.text =it.visibility.toString()+ " m"
+    when(it.weather.get(0).icon){
+
+        "01d"-> weather_icon.setImageResource(R.drawable.oned)
+        "01n"-> weather_icon.setImageResource(R.drawable.onen)
+    }
 
 }
+    private fun dateFormat(milliSeconds: Int):String{
+        // Create a calendar object that will convert the date and time value in milliseconds to date.
+        val calendar: Calendar = Calendar.getInstance()
+        calendar.setTimeInMillis(milliSeconds.toLong() * 1000)
+        var month = calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault())
+        var day=calendar.get(Calendar.DAY_OF_MONTH).toString()
+        var year=calendar.get(Calendar.YEAR).toString()
+        return day+" "+month +" "+year
+
+    }
 }

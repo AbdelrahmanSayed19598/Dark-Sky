@@ -10,59 +10,45 @@
     android:backgroundTint="#3f3f3f"
     app:cardCornerRadius="20dp">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:weightSum="6">
 
         <TextView
             android:id="@+id/txt_day"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
+            android:layout_weight="1"
             android:text="@string/txt_day"
-            android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:textColor="@color/white" />
 
         <ImageView
             android:id="@+id/daily_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="40dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toBottomOf="@+id/txt_day"
-            app:layout_constraintStart_toEndOf="@+id/txt_day"
-            app:layout_constraintTop_toTopOf="@+id/txt_day"
-            app:srcCompat="@drawable/ic_sun_svgrepo_com" />
+            android:layout_marginStart="2dp"
+            android:layout_weight="1" />
 
         <TextView
             android:id="@+id/weather_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="16dp"
+            android:layout_weight="2"
             android:text="@string/daily_status"
-            android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="@+id/daily_icon"
-            app:layout_constraintStart_toEndOf="@+id/daily_icon"
-            app:layout_constraintTop_toTopOf="@+id/daily_icon" />
+            android:textColor="@color/white" />
 
         <TextView
             android:id="@+id/temprature_probability"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
+            android:layout_weight="2"
             android:text="23/21 ّ C"
-            android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="@+id/weather_status"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/weather_status" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            android:textColor="@color/white" />
+    </LinearLayout>
 </androidx.cardview.widget.CardView>

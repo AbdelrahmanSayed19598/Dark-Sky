@@ -1,4 +1,4 @@
-package com.example.weatherforecast.homescreen.view
+package com.example.weatherforecast.homescreen.view.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherforecast.R
 import com.example.weatherforecast.data.response.Hourly
-import com.example.weatherforecast.model.HoursPojo
 import kotlinx.android.synthetic.main.hourly_weather_row.view.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -27,6 +26,29 @@ class HourlyAdapter (val hoursPojo: List<Hourly>): RecyclerView.Adapter<HourlyAd
         holder.hoursTxt.text = timeFormat( hoursPojo[position].dt.toInt())
        // holder.imgHourly.setImageResource(hoursPojo[position].img)
         holder.tempratureTxt.text = (hoursPojo[position].temp.toInt()).toString()+"°c"
+
+
+        when(hoursPojo[position].weather.get(0).icon){
+
+            "01d"-> holder.imgHourly.setImageResource(R.drawable.oned)
+            "01n"-> holder.imgHourly.setImageResource(R.drawable.onen)
+            "02d"-> holder.imgHourly.setImageResource(R.drawable.twod)
+            "02n"-> holder.imgHourly.setImageResource(R.drawable.twon)
+            "03d"-> holder.imgHourly.setImageResource(R.drawable.threed)
+            "03n"-> holder.imgHourly.setImageResource(R.drawable.threen)
+            "04d"-> holder.imgHourly.setImageResource(R.drawable.fourd)
+            "04n"-> holder.imgHourly.setImageResource(R.drawable.fourn)
+            "09d"-> holder.imgHourly.setImageResource(R.drawable.nined)
+            "09n"-> holder.imgHourly.setImageResource(R.drawable.ninen)
+            "10d"-> holder.imgHourly.setImageResource(R.drawable.tend)
+            "10n"-> holder.imgHourly.setImageResource(R.drawable.tenn)
+            "11d"-> holder.imgHourly.setImageResource(R.drawable.eleven_d)
+            "11n"-> holder.imgHourly.setImageResource(R.drawable.eleven_n)
+            "13d"-> holder.imgHourly.setImageResource(R.drawable.thirteen_d)
+            "13n"-> holder.imgHourly.setImageResource(R.drawable.thirteen_n)
+            "50d"-> holder.imgHourly.setImageResource(R.drawable.fifty_d)
+            "50n"-> holder.imgHourly.setImageResource(R.drawable.fifty_n)
+        }
     }
 
     private fun timeFormat(millisSeconds:Int ): String {
