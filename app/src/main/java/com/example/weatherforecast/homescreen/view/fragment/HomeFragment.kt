@@ -5,23 +5,26 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.coroutineScope
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherforecast.R
-import com.example.weatherforecast.data.ApiWeatherService
-import com.example.weatherforecast.data.RetrofitHelper
-import com.example.weatherforecast.data.response.Current
+import com.example.weatherforecast.data.model.Repository
+import com.example.weatherforecast.data.remoteData.RetrofitHelper
+import com.example.weatherforecast.data.model.Current
 import com.example.weatherforecast.homescreen.view.adapter.DailyAdapter
 import com.example.weatherforecast.homescreen.view.adapter.HourlyAdapter
+import com.example.weatherforecast.homescreen.viewModel.HomeFragmentViewModel
+import com.example.weatherforecast.homescreen.viewModel.HomeFragmentViewModelFactory
 import kotlinx.android.synthetic.main.fragment_home.*
-import kotlinx.android.synthetic.main.hourly_weather_row.*
 import kotlinx.coroutines.*
 import java.util.*
 
 
+
 class HomeFragment : Fragment() {
     var job: Job? =null;
+    private  lateinit var  viewModel : HomeFragmentViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,30 +59,18 @@ class HomeFragment : Fragment() {
         daily_recycler.layoutManager = LinearLayoutManager(context,RecyclerView.VERTICAL,false)
         daily_recycler.hasFixedSize()
 
+        viewModel = ViewModelProvider(this,HomeFragmentViewModelFactory(Repository(RetrofitHelper))).get(HomeFragmentViewModel::class.java)
 
+        viewModel.getAllWeather(33.44,-94.04)
+        viewModel.allWeatherList.observe(viewLifecycleOwner){
+            city_name.text = it.timezone.toString().split("/")[1]
+            setData(it?.current!!)
 
-        lifecycle.coroutineScope.launch{
-            job = CoroutineScope(Dispatchers.IO).launch {
-                val weatherData =RetrofitHelper.getInstance().create(ApiWeatherService::class.java)
-                val response = weatherData.getWeather(33.44,-94.04)
-                withContext(Dispatchers.Main){
-                    if(response.isSuccessful){
-
-                        city_name.text = response.body()?.timezone.toString().split("/")[1]
-                        setData(response.body()?.current!!)
-
-                        val hourlyAdapter = HourlyAdapter(response.body()?.hourly?: emptyList())
-                        hourly_recycler.adapter = hourlyAdapter
-
-                        val dailyAdapter = DailyAdapter(response.body()?.daily?: emptyList())
-                        daily_recycler.adapter = dailyAdapter
-                    }
-                }
-            }
+            val hourlyAdapter = HourlyAdapter(it?.hourly?: emptyList())
+            hourly_recycler.adapter = hourlyAdapter
+            val dailyAdapter = DailyAdapter(it?.daily?: emptyList())
+            daily_recycler.adapter = dailyAdapter
         }
-
-
-
 
     }
 
@@ -91,12 +82,29 @@ private fun setData(it:Current){
     txt_cloud_value.text = it.clouds.toString()+ " %"
     txt_pressure_value.text = it.pressure.toString()+ "hpa"
     txt_humiditly_value.text = it.humidity.toString()+ " %"
-    txt_wind_value.text = it.windSpeed.toString()+ " m/s"
+    txt_wind_value.text = it.wind_speed.toString()+ " m/s"
     txt_visabilty_value.text =it.visibility.toString()+ " m"
-    when(it.weather.get(0).icon){
+    txt_ultra_violate_value.text = it.uvi.toString()
+    when(it.weather[0].icon){
 
         "01d"-> weather_icon.setImageResource(R.drawable.oned)
         "01n"-> weather_icon.setImageResource(R.drawable.onen)
+        "02d"-> weather_icon.setImageResource(R.drawable.twod)
+        "02n"-> weather_icon.setImageResource(R.drawable.twon)
+        "03d"-> weather_icon.setImageResource(R.drawable.threed)
+        "03n"-> weather_icon.setImageResource(R.drawable.threen)
+        "04d"-> weather_icon.setImageResource(R.drawable.fourd)
+        "04n"-> weather_icon.setImageResource(R.drawable.fourn)
+        "09d"-> weather_icon.setImageResource(R.drawable.nined)
+        "09n"-> weather_icon.setImageResource(R.drawable.ninen)
+        "10d"-> weather_icon.setImageResource(R.drawable.tend)
+        "10n"-> weather_icon.setImageResource(R.drawable.tenn)
+        "11d"-> weather_icon.setImageResource(R.drawable.eleven_d)
+        "11n"-> weather_icon.setImageResource(R.drawable.eleven_n)
+        "13d"-> weather_icon.setImageResource(R.drawable.thirteen_d)
+        "13n"-> weather_icon.setImageResource(R.drawable.thirteen_n)
+        "50d"-> weather_icon.setImageResource(R.drawable.fifty_d)
+        "50n"-> weather_icon.setImageResource(R.drawable.fifty_n)
     }
 
 }

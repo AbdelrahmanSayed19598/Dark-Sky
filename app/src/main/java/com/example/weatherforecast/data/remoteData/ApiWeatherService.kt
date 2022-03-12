@@ -1,6 +1,6 @@
-package com.example.weatherforecast.data
+package com.example.weatherforecast.data.remoteData
 
-import com.example.weatherforecast.data.response.WeatherData
+import com.example.weatherforecast.data.model.WeatherModel
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -17,6 +17,6 @@ interface ApiWeatherService {
         @Query("units") units :String = "imperal",
         @Query("exclude") exclude: String = EXCLUDE,
         @Query("appid") appid: String = API_KEY
-    ):Response<WeatherData>
+    ):Response<WeatherModel>
 
 }

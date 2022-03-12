@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherforecast.R
-import com.example.weatherforecast.data.response.Daily
+import com.example.weatherforecast.data.model.Daily
 import kotlinx.android.synthetic.main.daily_weather_row.view.*
 import java.util.*
 
