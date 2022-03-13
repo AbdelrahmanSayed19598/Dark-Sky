@@ -11,10 +11,10 @@ const val EXCLUDE ="minutely"
 interface ApiWeatherService {
     @GET("onecall")
     suspend fun getWeather(
-        @Query("lat") lat: Double,
-        @Query("lon") lon:Double,
+        @Query("lat") lat: String?,
+        @Query("lon") lon: String?,
         @Query("lang") language: String ="en",
-        @Query("units") units :String = "imperal",
+        @Query("units") units:String = "imperial",
         @Query("exclude") exclude: String = EXCLUDE,
         @Query("appid") appid: String = API_KEY
     ):Response<WeatherModel>

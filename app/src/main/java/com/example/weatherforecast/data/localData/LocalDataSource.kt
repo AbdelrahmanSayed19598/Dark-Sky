@@ -1,0 +1,27 @@
+package com.example.weatherforecast.data.localData
+
+import android.app.Application
+import androidx.lifecycle.LiveData
+import com.example.weatherforecast.data.model.WeatherModel
+
+class LocalDataSource(private val weatherDao: WeatherDao): LocalDataSourceInter {
+
+
+    override fun getAllWather(): LiveData<List<WeatherModel>> {
+        return weatherDao.getAll()
+    }
+
+    override fun getWeatherByLatLon(timeZone: String): WeatherModel {
+        return weatherDao.getWeatherByTimeZone(timeZone)
+    }
+
+    override suspend fun insert(weatherModel: WeatherModel){
+        weatherDao.insert(weatherModel)
+    }
+
+    override fun deleteByTimeZone(timeZone :String){
+        weatherDao.deleteByTimeZone(timeZone)
+    }
+
+
+}

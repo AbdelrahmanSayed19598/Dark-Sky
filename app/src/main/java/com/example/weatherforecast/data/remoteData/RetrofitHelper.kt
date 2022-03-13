@@ -11,8 +11,14 @@ fun getInstance(): Retrofit{
 return Retrofit.Builder().baseUrl(baseURL).addConverterFactory(GsonConverterFactory.create()).build()
 }
 
-    override suspend fun getWeather(lat: Double, lon: Double): Response<WeatherModel> {
-      return  getInstance().create(ApiWeatherService::class.java).getWeather(lat,lon)
+    override suspend fun getWeather(
+        lat: String?,
+        lon: String?,
+        language: String,
+        units: String
+    ): Response<WeatherModel> {
+        return  getInstance().create(ApiWeatherService::class.java).getWeather(lat,lon,language,units)
+
     }
 
 

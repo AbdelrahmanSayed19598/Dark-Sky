@@ -12,12 +12,13 @@ interface WeatherDao {
     @Query("SELECT * FROM Weather")
     fun getAll(): LiveData<List<WeatherModel>>
 
-    @Query("SELECT * FROM Weather WHERE lat=:lat AND lon=:lng ")
-    fun getWeatherResponse(lat:String,lng:String): LiveData<WeatherModel>
+    @Query("SELECT * FROM Weather WHERE timezone = :timezone ")
+    fun getWeatherByTimeZone(timezone: String): WeatherModel
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(weather: WeatherModel)
 
-    @Query("DELETE FROM Weather")
-    suspend fun deleteAll()
+    @Query("DELETE FROM Weather WHERE timezone=:timezone")
+    fun deleteByTimeZone(timezone: String?)
+
 }

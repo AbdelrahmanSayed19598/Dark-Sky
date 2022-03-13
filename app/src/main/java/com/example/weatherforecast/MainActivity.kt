@@ -1,25 +1,51 @@
 package com.example.weatherforecast
 
-import androidx.appcompat.app.AppCompatActivity
+import android.Manifest
+import android.content.Context
+import android.content.SharedPreferences
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
-import com.example.weatherforecast.alerts.AlertFragment
-import com.example.weatherforecast.favorite.FavoriteFragment
+import com.example.weatherforecast.homescreen.view.fragment.AlertFragment
+import com.example.weatherforecast.homescreen.view.fragment.FavoriteFragment
 import com.example.weatherforecast.homescreen.view.fragment.HomeFragment
-import com.example.weatherforecast.settings.SettingFragment
+import com.example.weatherforecast.homescreen.view.fragment.SettingFragment
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.android.material.navigation.NavigationView
+
+
+const val lat = "lat"
+const val lon = "lon"
 
 class MainActivity : AppCompatActivity() {
     lateinit var togel : ActionBarDrawerToggle
     lateinit var drawerLayout: DrawerLayout
+    lateinit var fusedLocationProviderClient: FusedLocationProviderClient
+    lateinit var sharedPreferences : SharedPreferences
+    lateinit var editor : SharedPreferences.Editor
+
+
      var id : Int = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
+        checkLocationPermision()
+
+        sharedPreferences = getSharedPreferences(lat,Context.MODE_PRIVATE)
+        editor = sharedPreferences.edit()
+
 
 
        drawerLayout  = findViewById(R.id.drawerLayout)
@@ -59,8 +85,31 @@ class MainActivity : AppCompatActivity() {
             }
             true
         }
+
     }
 
+    private fun checkLocationPermision() {
+        val task = fusedLocationProviderClient.lastLocation
+        if(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+            != PackageManager.PERMISSION_GRANTED
+            && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+            != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(this,
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),1)
+            return
+        }
+        task.addOnSuccessListener {
+            if(it != null){
+                Log.i("TAG", "checkLocationPermision: ")
+                Toast.makeText(this,"${it.latitude}+ ${it.longitude}",Toast.LENGTH_SHORT).show()
+                editor.putString(lat,it.latitude.toString())
+                editor.putString(lon,it.longitude.toString())
+                editor.apply()
+            }
+        }
+
+    }
 
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
