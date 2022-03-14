@@ -23,5 +23,13 @@ class LocalDataSource(private val weatherDao: WeatherDao): LocalDataSourceInter 
         weatherDao.deleteByTimeZone(timeZone)
     }
 
+    override fun getWeatherByTimeZoneAndNotFav(timezone: String): WeatherModel {
+       return weatherDao.getWeatherByTimeZoneAndNotFav(timezone)
+    }
+
+    override fun deleteNotFav() {
+        weatherDao.deleteNotFav()
+    }
+
 
 }

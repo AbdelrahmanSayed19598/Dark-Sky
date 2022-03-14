@@ -4,23 +4,23 @@
     tools:showIN="navigation_view">
  <group android:checkableBehavior="single">
     <item
-    android:id="@+id/nav_home"
+    android:id="@+id/homeFragment"
     android:title="Home"
     android:icon="@drawable/ic_baseline_home_24"
     />
     <item
-        android:id="@+id/nav_favorite"
+        android:id="@+id/favoriteFragment"
         android:title="Favorite"
         android:icon="@drawable/ic_baseline_favorite_24"
         />
     <item
-        android:id="@+id/nav_alert"
+        android:id="@+id/alertFragment"
         android:title="Alert"
         android:icon="@drawable/ic_baseline_add_alert_24"
         />
     <item
-        android:id="@+id/nav_setting"
-        android:title="Settimg"
+        android:id="@+id/settingFragment"
+        android:title="Setting"
         android:icon="@drawable/ic_baseline_settings_24"
         />
  </group>

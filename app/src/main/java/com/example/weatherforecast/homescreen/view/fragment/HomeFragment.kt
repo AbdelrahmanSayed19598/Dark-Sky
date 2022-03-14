@@ -10,8 +10,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.weatherforecast.Comenecator
 import com.example.weatherforecast.R
 import com.example.weatherforecast.data.model.Repository
 import com.example.weatherforecast.data.model.Current
@@ -34,7 +36,6 @@ class HomeFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-
     }
 
     override fun onCreateView(
@@ -47,16 +48,16 @@ class HomeFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
 
-    companion object {
 
-        fun newInstance(param1: String, param2: String) =
-            HomeFragment().apply {
-
-            }
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        fab.setOnClickListener(View.OnClickListener {
+            Navigation.findNavController(view).navigate(R.id.action_homeFragment_to_map2)
+             //   bundleOf("userId" to "someUser")
+
+        })
 
         sharedPreferences = activity?.getSharedPreferences(lat,Context.MODE_PRIVATE)!!
         var latitude  = sharedPreferences.getString("lat","33")

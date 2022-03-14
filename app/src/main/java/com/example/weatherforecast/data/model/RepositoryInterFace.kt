@@ -16,10 +16,14 @@ interface RepositoryInterFace {
 
     fun deleteByTimeZone(timeZone :String)
 
+    fun getWeatherByTimeZoneAndNotFav(timezone: String): WeatherModel
+    fun deleteNotFav()
+
     suspend fun  getWeather(
         lat: String?, lon: String?,
         language: String ="en",
         units:String = "imperial"
                              ):WeatherModel
+
 
 }

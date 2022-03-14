@@ -42,6 +42,14 @@ class Repository(private val remote : RemoteInterFace,private val local : LocalD
         local.deleteByTimeZone(timeZone)
     }
 
+    override fun getWeatherByTimeZoneAndNotFav(timezone: String): WeatherModel {
+       return local.getWeatherByTimeZoneAndNotFav(timezone)
+    }
+
+    override fun deleteNotFav() {
+        local.deleteNotFav()
+    }
+
     override suspend fun getWeather(
         lat: String?,
         lon: String?,
