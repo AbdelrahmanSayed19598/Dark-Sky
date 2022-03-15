@@ -58,6 +58,7 @@ class Repository(private val remote : RemoteInterFace,private val local : LocalD
     ): WeatherModel {
         val response = remote.getWeather(lat,lon,language,units)
         if (response.isSuccessful){
+            insert(response.body()!!)
             return response.body()!!
         }else{
             throw Exception("${response.errorBody()}")

@@ -2,18 +2,16 @@ package com.example.weatherforecast.homescreen.view.fragment
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.location.Address
-import android.location.Geocoder
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.weatherforecast.Comenecator
 import com.example.weatherforecast.R
 import com.example.weatherforecast.data.model.Repository
 import com.example.weatherforecast.data.model.Current
@@ -22,7 +20,6 @@ import com.example.weatherforecast.homescreen.view.adapter.HourlyAdapter
 import com.example.weatherforecast.homescreen.viewModel.HomeFragmentViewModel
 import com.example.weatherforecast.homescreen.viewModel.HomeFragmentViewModelFactory
 import com.example.weatherforecast.lat
-import com.example.weatherforecast.lon
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.coroutines.*
 import java.util.*
@@ -53,7 +50,7 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        fab.setOnClickListener(View.OnClickListener {
+        map_btn_from_home.setOnClickListener(View.OnClickListener {
             Navigation.findNavController(view).navigate(R.id.action_homeFragment_to_map2)
              //   bundleOf("userId" to "someUser")
 
@@ -73,18 +70,26 @@ class HomeFragment : Fragment() {
             ViewModelProvider(this,
                 HomeFragmentViewModelFactory(Repository.getRepoInstance(requireActivity().application)))
                 .get(HomeFragmentViewModel::class.java)
+try {
+    viewModel.insertData(latitude, longitude)
+    viewModel.allWeather.observe(viewLifecycleOwner) {
+        city_name.text = it.timezone.split("/")[1]
+        setData(it?.current!!)
 
-        viewModel.insertData(latitude, longitude)
-        viewModel.allWeather.observe(viewLifecycleOwner) {
-            city_name.text = it.timezone.split("/")[1]
-            setData(it?.current!!)
+        val hourlyAdapter = HourlyAdapter(it?.hourly ?: emptyList())
+        hourly_recycler.adapter = hourlyAdapter
 
-            val hourlyAdapter = HourlyAdapter(it?.hourly ?: emptyList())
-            hourly_recycler.adapter = hourlyAdapter
+        val dailyAdapter = DailyAdapter(it?.daily ?: emptyList())
+        daily_recycler.adapter = dailyAdapter
+    }
+}catch (e :Exception){
+    Toast.makeText(
+        requireContext(),
+        "${e.message}",
+        Toast.LENGTH_SHORT
+    ).show()
+}
 
-            val dailyAdapter = DailyAdapter(it?.daily ?: emptyList())
-            daily_recycler.adapter = dailyAdapter
-        }
 
 
 

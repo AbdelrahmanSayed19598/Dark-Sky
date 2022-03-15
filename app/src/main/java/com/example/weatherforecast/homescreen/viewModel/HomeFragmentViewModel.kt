@@ -1,5 +1,6 @@
 package com.example.weatherforecast.homescreen.viewModel
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,35 +11,39 @@ import kotlinx.coroutines.launch
 
 class HomeFragmentViewModel(private val iRepo: RepositoryInterFace) : ViewModel() {
 
-    val allWeather = MutableLiveData<WeatherModel>()
-    val errorMessage = MutableLiveData<String>()
-    lateinit var weatherModel :WeatherModel
+    private var _allWeather = MutableLiveData<WeatherModel>()
+    val allWeather:LiveData<WeatherModel> = _allWeather
+    lateinit var weatherModel: WeatherModel
 
 
     fun insertData(
         lat: String?,
         lon: String?,
-        language: String ="en",
-        units:String = "imperial"){
+        language: String = "en",
+        units: String = "metric"
+    ) {
 
 
-        var job = viewModelScope.launch(Dispatchers.IO) {
+        val job = viewModelScope.launch(Dispatchers.IO) {
+            try {
+                weatherModel = iRepo.getWeather(lat, lon, language, units)
 
-            weatherModel = iRepo.getWeather(lat,lon,language,units)
-            iRepo.insert(weatherModel)
+            } catch (e: Exception) {
+                throw e
+            }
+
+
         }
         viewModelScope.launch(Dispatchers.IO) {
             job.join()
-            var response = iRepo.getWeatherByTimeZone(weatherModel.timezone)
-            allWeather.postValue(response)
+            getDataFromDatabase(weatherModel.timezone)
         }
-
-
 
 
     }
 
-
-
-
+    private fun getDataFromDatabase(timeZone:String){
+        val response = iRepo.getWeatherByTimeZone(timeZone)
+        _allWeather.postValue(response)
+    }
 }
