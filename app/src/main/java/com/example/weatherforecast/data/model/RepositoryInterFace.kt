@@ -3,12 +3,13 @@ package com.example.weatherforecast.data.model
 import androidx.lifecycle.LiveData
 import com.example.weatherforecast.data.model.WeatherModel
 import com.example.weatherforecast.data.remoteData.EXCLUDE
+import kotlinx.coroutines.flow.Flow
 import retrofit2.Response
 import retrofit2.http.Query
 
 interface RepositoryInterFace {
 //    suspend fun getWeather( lat: Double, lon:Double): Response<WeatherModel>
-    fun getAllWather(): LiveData<List<WeatherModel>>
+    fun getAllWather(): Flow<List<WeatherModel>>
 
     fun getWeatherByTimeZone(timeZone: String): WeatherModel
 
@@ -24,6 +25,12 @@ interface RepositoryInterFace {
         language: String ="en",
         units:String = "imperial"
                              ):WeatherModel
+
+    suspend fun  insertFavoriteWeather(
+        lat: String?, lon: String?,
+        language: String ="en",
+        units:String = "imperial"
+    ):WeatherModel
 
 
 }

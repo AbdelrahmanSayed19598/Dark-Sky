@@ -1,6 +1,5 @@
-package com.example.weatherforecast.homescreen.map
+package com.example.weatherforecast.ui.map.viewModel
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.weatherforecast.data.model.RepositoryInterFace
@@ -29,5 +28,18 @@ class MapViewModel(private val iRepo: RepositoryInterFace) : ViewModel() {
             var response = iRepo.insert(weatherModel)
 
         }
+    }
+
+    fun insertFavoritePlace(
+        lat: String?,
+        lon: String?,
+        language: String = "en",
+        units: String = "imperial"
+    ) {
+        var job = viewModelScope.launch(Dispatchers.IO) {
+             iRepo.insertFavoriteWeather(lat, lon, language, units)
+        }
+
+
     }
 }

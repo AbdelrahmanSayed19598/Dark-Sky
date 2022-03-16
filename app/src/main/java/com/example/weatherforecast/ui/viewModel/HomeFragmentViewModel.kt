@@ -1,4 +1,4 @@
-package com.example.weatherforecast.homescreen.viewModel
+package com.example.weatherforecast.ui.viewModel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -16,7 +16,7 @@ class HomeFragmentViewModel(private val iRepo: RepositoryInterFace) : ViewModel(
     lateinit var weatherModel: WeatherModel
 
 
-    fun insertData(
+    fun getData(
         lat: String?,
         lon: String?,
         language: String = "en",

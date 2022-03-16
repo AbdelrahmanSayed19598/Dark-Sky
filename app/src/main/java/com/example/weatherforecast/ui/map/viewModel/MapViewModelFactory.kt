@@ -1,9 +1,8 @@
-package com.example.weatherforecast.homescreen.map
+package com.example.weatherforecast.ui.map.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.weatherforecast.data.model.RepositoryInterFace
-import com.example.weatherforecast.homescreen.viewModel.HomeFragmentViewModel
 
 class MapViewModelFactory(private val iRepo: RepositoryInterFace) :
     ViewModelProvider.Factory {

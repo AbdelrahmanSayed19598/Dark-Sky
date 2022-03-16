@@ -3,11 +3,12 @@ package com.example.weatherforecast.data.localData
 import android.app.Application
 import androidx.lifecycle.LiveData
 import com.example.weatherforecast.data.model.WeatherModel
+import kotlinx.coroutines.flow.Flow
 
 class LocalDataSource(private val weatherDao: WeatherDao): LocalDataSourceInter {
 
 
-    override fun getAllWather(): LiveData<List<WeatherModel>> {
+    override fun getAllWather(): Flow<List<WeatherModel>> {
         return weatherDao.getAll()
     }
 

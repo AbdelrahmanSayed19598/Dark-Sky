@@ -9,7 +9,7 @@ import com.google.gson.annotations.SerializedName
 data class WeatherModel(
     @SerializedName("lat") val lat : Double,
     @SerializedName("lon") val lon : Double,
-    @SerializedName("isFav") val isFav : Int=0,
+    @SerializedName("isFav") var isFav : Int,
     @PrimaryKey
     @SerializedName("timezone") val timezone : String,
     @SerializedName("timezone_offset") val timezone_offset : Int,

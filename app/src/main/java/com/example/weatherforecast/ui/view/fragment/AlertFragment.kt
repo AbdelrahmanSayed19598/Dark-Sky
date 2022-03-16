@@ -1,4 +1,4 @@
-package com.example.weatherforecast.homescreen.view.fragment
+package com.example.weatherforecast.ui.view.fragment
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

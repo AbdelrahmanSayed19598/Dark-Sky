@@ -122,10 +122,18 @@ class MainActivity : AppCompatActivity() {
             if(it != null){
               editor.putString(lat,it.latitude.toString())
                 editor.putString(lon,it.longitude.toString())
+                editor.putString("map", "0")
+
                 editor.apply()
             }
         }
 
+
+
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
     }
 
 

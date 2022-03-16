@@ -1,4 +1,4 @@
-package com.example.weatherforecast.homescreen.map
+package com.example.weatherforecast.ui.map.view
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -12,15 +12,14 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.example.weatherforecast.R
 import com.example.weatherforecast.data.model.Repository
-import com.example.weatherforecast.homescreen.viewModel.HomeFragmentViewModel
-import com.example.weatherforecast.homescreen.viewModel.HomeFragmentViewModelFactory
 import com.example.weatherforecast.lat
 import com.example.weatherforecast.lon
+import com.example.weatherforecast.ui.map.viewModel.MapViewModel
+import com.example.weatherforecast.ui.map.viewModel.MapViewModelFactory
 
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 
 class Map : Fragment() {
@@ -30,14 +29,13 @@ class Map : Fragment() {
     var longitude: Double = 0.0
     lateinit var navControler: NavController
 
+    var flag :Boolean = false
+
     private lateinit var viewModel: MapViewModel
 
 
     private val callback = OnMapReadyCallback { googleMap ->
 
-        // val location = LatLng(latitude, longitude)
-//        googleMap.addMarker(MarkerOptions().position(location))
-//        googleMap.moveCamera(CameraUpdateFactory.newLatLng(location))
         googleMap.setOnMapClickListener {
             googleMap.clear()
             googleMap.addMarker(MarkerOptions().position(it))
@@ -62,10 +60,9 @@ class Map : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
+        flag = arguments?.getBoolean("mapArg")!!
         navControler = Navigation.findNavController(view)
         super.onViewCreated(view, savedInstanceState)
-
 
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment?.getMapAsync(callback)
@@ -84,21 +81,32 @@ class Map : Fragment() {
                         this,
                         MapViewModelFactory(Repository.getRepoInstance(requireActivity().application))
                     ).get(MapViewModel::class.java)
-                viewModel.insertData(latitude.toString(), longitude.toString())
+                if(flag == false)
+                {
+                    viewModel.insertData(latitude.toString(), longitude.toString())
+                    sharedPreferences =
+                        requireActivity().getSharedPreferences(lat, Context.MODE_PRIVATE)
+                    editor = sharedPreferences.edit()
 
-                sharedPreferences =
-                    requireActivity().getSharedPreferences(lat, Context.MODE_PRIVATE)
-                editor = sharedPreferences.edit()
+                    editor.putString(lat, latitude.toString())
+                    editor.putString(lon, longitude.toString())
+                    editor.putString("map", "0")
+                    editor.apply()
+                    navControler.navigate(R.id.homeFragment)
+                }
+                else{
+                    viewModel.insertFavoritePlace(latitude.toString(), longitude.toString())
 
-                editor.putString(lat, latitude.toString())
-                editor.putString(lon, longitude.toString())
-                editor.apply()
+                    navControler.navigate(R.id.favoriteFragment)
+                }
+
+
+
                 Toast.makeText(
                     requireContext(),
                     "this country saved successfully",
                     Toast.LENGTH_SHORT
                 ).show()
-                navControler.navigate(R.id.homeFragment)
             }
         }
         return super.onOptionsItemSelected(item)

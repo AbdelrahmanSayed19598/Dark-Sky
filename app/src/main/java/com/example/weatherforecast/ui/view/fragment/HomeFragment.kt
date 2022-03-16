@@ -1,4 +1,4 @@
-package com.example.weatherforecast.homescreen.view.fragment
+package com.example.weatherforecast.ui.view.fragment
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -15,10 +15,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherforecast.R
 import com.example.weatherforecast.data.model.Repository
 import com.example.weatherforecast.data.model.Current
-import com.example.weatherforecast.homescreen.view.adapter.DailyAdapter
-import com.example.weatherforecast.homescreen.view.adapter.HourlyAdapter
-import com.example.weatherforecast.homescreen.viewModel.HomeFragmentViewModel
-import com.example.weatherforecast.homescreen.viewModel.HomeFragmentViewModelFactory
+import com.example.weatherforecast.ui.view.adapter.DailyAdapter
+import com.example.weatherforecast.ui.view.adapter.HourlyAdapter
+import com.example.weatherforecast.ui.viewModel.HomeFragmentViewModel
+import com.example.weatherforecast.ui.viewModel.HomeFragmentViewModelFactory
 import com.example.weatherforecast.lat
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.coroutines.*
@@ -46,19 +46,16 @@ class HomeFragment : Fragment() {
     }
 
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         map_btn_from_home.setOnClickListener(View.OnClickListener {
             Navigation.findNavController(view).navigate(R.id.action_homeFragment_to_map2)
-             //   bundleOf("userId" to "someUser")
-
         })
 
-        sharedPreferences = activity?.getSharedPreferences(lat,Context.MODE_PRIVATE)!!
-        var latitude  = sharedPreferences.getString("lat","33")
-        var longitude = sharedPreferences.getString("lon","-94.04")
+        sharedPreferences = activity?.getSharedPreferences(lat, Context.MODE_PRIVATE)!!
+        var latitude = sharedPreferences.getString("lat", "0")
+        var longitude = sharedPreferences.getString("lon", "0")
 
         hourly_recycler.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
         hourly_recycler.hasFixedSize()
@@ -67,36 +64,36 @@ class HomeFragment : Fragment() {
         daily_recycler.hasFixedSize()
 
         viewModel =
-            ViewModelProvider(this,
-                HomeFragmentViewModelFactory(Repository.getRepoInstance(requireActivity().application)))
+            ViewModelProvider(
+                this,
+                HomeFragmentViewModelFactory(Repository.getRepoInstance(requireActivity().application))
+            )
                 .get(HomeFragmentViewModel::class.java)
-try {
-    viewModel.insertData(latitude, longitude)
-    viewModel.allWeather.observe(viewLifecycleOwner) {
-        city_name.text = it.timezone.split("/")[1]
-        setData(it?.current!!)
+        try {
+            viewModel.getData(latitude, longitude)
+            viewModel.allWeather.observe(viewLifecycleOwner) {
+                city_name.text = it.timezone.split("/")[1]
+                setData(it?.current!!)
 
-        val hourlyAdapter = HourlyAdapter(it?.hourly ?: emptyList())
-        hourly_recycler.adapter = hourlyAdapter
+                val hourlyAdapter = HourlyAdapter(it?.hourly ?: emptyList())
+                hourly_recycler.adapter = hourlyAdapter
 
-        val dailyAdapter = DailyAdapter(it?.daily ?: emptyList())
-        daily_recycler.adapter = dailyAdapter
-    }
-}catch (e :Exception){
-    Toast.makeText(
-        requireContext(),
-        "${e.message}",
-        Toast.LENGTH_SHORT
-    ).show()
-}
-
-
+                val dailyAdapter = DailyAdapter(it?.daily ?: emptyList())
+                daily_recycler.adapter = dailyAdapter
+            }
+        } catch (e: Exception) {
+            Toast.makeText(
+                requireContext(),
+                "${e.message}",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
 
 
     }
 
 
-        private fun setData(it: Current) {
+    private fun setData(it: Current) {
         txt_date.text = dateFormat(it.dt.toInt())
         txt_weather.text = it.weather.get(0).main.toString()
         temprature.text = it.temp.toString()

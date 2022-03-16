@@ -6,11 +6,12 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.weatherforecast.data.model.WeatherModel
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface WeatherDao {
-    @Query("SELECT * FROM Weather")
-    fun getAll(): LiveData<List<WeatherModel>>
+    @Query("SELECT * FROM Weather WHERE isFav=1")
+    fun getAll(): Flow<List<WeatherModel>>
 
     @Query("SELECT * FROM Weather WHERE timezone = :timezone ")
     fun getWeatherByTimeZone(timezone: String): WeatherModel
@@ -26,5 +27,7 @@ interface WeatherDao {
 
     @Query("DELETE FROM Weather WHERE isFav=0")
     fun deleteNotFav()
+
+
 
 }
