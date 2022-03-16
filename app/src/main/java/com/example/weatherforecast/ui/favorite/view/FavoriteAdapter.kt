@@ -5,22 +5,27 @@ import android.content.SharedPreferences
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherforecast.R
 import com.example.weatherforecast.data.model.Daily
+import com.example.weatherforecast.data.model.Repository
 import com.example.weatherforecast.data.model.WeatherModel
 import com.example.weatherforecast.lat
 import com.example.weatherforecast.lon
+import com.example.weatherforecast.ui.favorite.viewModel.FavoriteViewModel
+import com.example.weatherforecast.ui.favorite.viewModel.FavoriteViewModelFactory
 import com.example.weatherforecast.ui.view.adapter.DailyAdapter
 import kotlinx.android.synthetic.main.daily_weather_row.view.*
 import kotlinx.android.synthetic.main.fav_row.view.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
 import java.util.*
 
-class FavoriteAdapter(val weatherModels: List<WeatherModel>,val context: Context) : RecyclerView.Adapter<FavoriteAdapter.MyViewHolder>() {
+class FavoriteAdapter(val weatherModels: List<WeatherModel>,val context: Context,val viewModel :FavoriteViewModel) : RecyclerView.Adapter<FavoriteAdapter.MyViewHolder>() {
     lateinit var sharedPreferences: SharedPreferences
     lateinit var editor: SharedPreferences.Editor
+
 
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
@@ -37,9 +42,10 @@ class FavoriteAdapter(val weatherModels: List<WeatherModel>,val context: Context
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.cityName.text = weatherModels[position].timezone.toString()
+        holder.cityName.text = weatherModels[position].timezone.split("/")[1]
         holder.deleteBtn.setOnClickListener(View.OnClickListener {
 
+            viewModel.deleteData(weatherModels[position].timezone)
         })
         holder.constrain.setOnClickListener(View.OnClickListener {
             sharedPreferences = context.getSharedPreferences(lat, Context.MODE_PRIVATE)

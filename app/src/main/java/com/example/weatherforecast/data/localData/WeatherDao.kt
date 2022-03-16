@@ -19,7 +19,7 @@ interface WeatherDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(weather: WeatherModel)
 
-    @Query("DELETE FROM Weather WHERE timezone=:timezone")
+    @Query("DELETE FROM Weather WHERE timezone= :timezone")
     fun deleteByTimeZone(timezone: String?)
 
     @Query("SELECT * FROM Weather WHERE timezone = :timezone AND isFav=0")

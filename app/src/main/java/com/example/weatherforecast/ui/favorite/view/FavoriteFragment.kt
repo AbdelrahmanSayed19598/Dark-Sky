@@ -55,7 +55,7 @@ class FavoriteFragment : Fragment() {
                 .get(FavoriteViewModel::class.java)
         viewModel.getData()
         viewModel.favoriteList.observe(viewLifecycleOwner){
-            val adapter = FavoriteAdapter(it?: emptyList(),requireContext())
+            val adapter = FavoriteAdapter(it?: emptyList(),requireContext(),viewModel)
             fav_recycler.adapter = adapter
         }
     }

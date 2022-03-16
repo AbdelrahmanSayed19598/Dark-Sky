@@ -10,7 +10,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-class FavoriteViewModel (private val iRepo: RepositoryInterFace) : ViewModel() {
+class FavoriteViewModel(private val iRepo: RepositoryInterFace) : ViewModel() {
 
     fun getData() {
         viewModelScope.launch(Dispatchers.IO) {
@@ -20,8 +20,12 @@ class FavoriteViewModel (private val iRepo: RepositoryInterFace) : ViewModel() {
         }
 
     }
+
     private var _favoriteList = MutableLiveData<List<WeatherModel>>()
     val favoriteList = _favoriteList
 
+    fun deleteData(timeZone: String) {
+        iRepo.deleteByTimeZone(timeZone)
+    }
 
 }
