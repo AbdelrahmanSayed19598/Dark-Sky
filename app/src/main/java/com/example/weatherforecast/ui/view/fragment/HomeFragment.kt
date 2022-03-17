@@ -105,8 +105,8 @@ class HomeFragment : Fragment() {
         txt_ultra_violate_value.text = it.uvi.toString()
         when (it.weather[0].icon) {
 
-            "01d" -> weather_icon.setImageResource(R.drawable.oned)
-            "01n" -> weather_icon.setImageResource(R.drawable.onen)
+            "01d" -> weather_icon.setImageResource(R.drawable.ic_sun_svgrepo_com)
+            "01n" -> weather_icon.setImageResource(R.drawable.ic_moon_svgrepo_com)
             "02d" -> weather_icon.setImageResource(R.drawable.twod)
             "02n" -> weather_icon.setImageResource(R.drawable.twon)
             "03d" -> weather_icon.setImageResource(R.drawable.threed)
@@ -119,8 +119,8 @@ class HomeFragment : Fragment() {
             "10n" -> weather_icon.setImageResource(R.drawable.tenn)
             "11d" -> weather_icon.setImageResource(R.drawable.eleven_d)
             "11n" -> weather_icon.setImageResource(R.drawable.eleven_n)
-            "13d" -> weather_icon.setImageResource(R.drawable.thirteen_d)
-            "13n" -> weather_icon.setImageResource(R.drawable.thirteen_n)
+            "13d" -> weather_icon.setImageResource(R.drawable.ic_snow_svgrepo_com)
+            "13n" -> weather_icon.setImageResource(R.drawable.ic_snow_svgrepo_com)
             "50d" -> weather_icon.setImageResource(R.drawable.fifty_d)
             "50n" -> weather_icon.setImageResource(R.drawable.fifty_n)
         }
@@ -133,7 +133,7 @@ class HomeFragment : Fragment() {
         if (addresses.isNotEmpty()) {
             val state = addresses[0].adminArea // damietta
             val country = addresses[0].countryName
-            city = "$state, $country"
+            city = "$state"
         }
         return city
     }

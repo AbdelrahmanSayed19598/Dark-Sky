@@ -7,7 +7,7 @@
     android:layout_marginTop="16dp"
     android:layout_marginStart="16dp"
     android:layout_marginEnd="16dp"
-    android:background="@color/white"
+    android:background="#E10B1142"
     >
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,6 +16,7 @@
         <de.hdodenhof.circleimageview.CircleImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+
             />
         <TextView
             android:layout_width="match_parent"
@@ -23,7 +24,7 @@
             android:id="@+id/appName"
             android:paddingTop="8dp"
             android:textSize="20sp"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textStyle="bold"
             android:text="@string/app_name"
             />
@@ -33,7 +34,7 @@
         android:layout_width="match_parent"
         android:layout_height="3dp"
         android:layout_marginTop="30dp"
-        android:background="@color/black"
+        android:background="#E10B1142"
         />
 
 

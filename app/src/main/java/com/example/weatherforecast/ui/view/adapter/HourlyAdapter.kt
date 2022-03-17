@@ -35,8 +35,8 @@ class HourlyAdapter (val hoursPojo: List<Hourly>,val context: Context): Recycler
 
         when(hoursPojo[position].weather.get(0).icon){
 
-            "01d"-> holder.imgHourly.setImageResource(R.drawable.oned)
-            "01n"-> holder.imgHourly.setImageResource(R.drawable.onen)
+            "01d"-> holder.imgHourly.setImageResource(R.drawable.ic_sun_svgrepo_com)
+            "01n"-> holder.imgHourly.setImageResource(R.drawable.ic_moon_svgrepo_com)
             "02d"-> holder.imgHourly.setImageResource(R.drawable.twod)
             "02n"-> holder.imgHourly.setImageResource(R.drawable.twon)
             "03d"-> holder.imgHourly.setImageResource(R.drawable.threed)
@@ -49,8 +49,8 @@ class HourlyAdapter (val hoursPojo: List<Hourly>,val context: Context): Recycler
             "10n"-> holder.imgHourly.setImageResource(R.drawable.tenn)
             "11d"-> holder.imgHourly.setImageResource(R.drawable.eleven_d)
             "11n"-> holder.imgHourly.setImageResource(R.drawable.eleven_n)
-            "13d"-> holder.imgHourly.setImageResource(R.drawable.thirteen_d)
-            "13n"-> holder.imgHourly.setImageResource(R.drawable.thirteen_n)
+            "13d"-> holder.imgHourly.setImageResource(R.drawable.ic_snow_svgrepo_com)
+            "13n"-> holder.imgHourly.setImageResource(R.drawable.ic_snow_svgrepo_com)
             "50d"-> holder.imgHourly.setImageResource(R.drawable.fifty_d)
             "50n"-> holder.imgHourly.setImageResource(R.drawable.fifty_n)
         }

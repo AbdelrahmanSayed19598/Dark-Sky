@@ -39,8 +39,8 @@ class DailyAdapter(val dailyPojo: List<Daily>,val context: Context) : RecyclerVi
 
         when (dailyPojo[position].weather[0].icon) {
 
-            "01d" -> holder.imgDaily.setImageResource(R.drawable.oned)
-            "01n" -> holder.imgDaily.setImageResource(R.drawable.onen)
+            "01d" -> holder.imgDaily.setImageResource(R.drawable.ic_sun_svgrepo_com)
+            "01n" -> holder.imgDaily.setImageResource(R.drawable.ic_moon_svgrepo_com)
             "02d" -> holder.imgDaily.setImageResource(R.drawable.twod)
             "02n" -> holder.imgDaily.setImageResource(R.drawable.twon)
             "03d" -> holder.imgDaily.setImageResource(R.drawable.threed)
@@ -53,8 +53,8 @@ class DailyAdapter(val dailyPojo: List<Daily>,val context: Context) : RecyclerVi
             "10n" -> holder.imgDaily.setImageResource(R.drawable.tenn)
             "11d" -> holder.imgDaily.setImageResource(R.drawable.eleven_d)
             "11n" -> holder.imgDaily.setImageResource(R.drawable.eleven_n)
-            "13d" -> holder.imgDaily.setImageResource(R.drawable.thirteen_d)
-            "13n" -> holder.imgDaily.setImageResource(R.drawable.thirteen_n)
+            "13d" -> holder.imgDaily.setImageResource(R.drawable.ic_snow_svgrepo_com)
+            "13n" -> holder.imgDaily.setImageResource(R.drawable.ic_snow_svgrepo_com)
             "50d" -> holder.imgDaily.setImageResource(R.drawable.fifty_d)
             "50n" -> holder.imgDaily.setImageResource(R.drawable.fifty_n)
         }

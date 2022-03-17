@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/dream"
+    >
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -31,11 +33,15 @@
 
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="8dp"
                     android:text="@string/city_name"
-                    android:textSize="20sp"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/cardView"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
@@ -44,40 +50,44 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:text="@string/txt_date"
+                    android:textColor="#FFFFFF"
                     android:textSize="16dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/cardView"
                     app:layout_constraintEnd_toEndOf="@+id/city_name"
                     app:layout_constraintStart_toStartOf="@+id/city_name"
                     app:layout_constraintTop_toBottomOf="@+id/city_name" />
 
                 <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
+                    android:id="@+id/cardView"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="16dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginBottom="16dp"
+                    app:cardBackgroundColor="#00FFFFFF"
                     app:cardCornerRadius="25dp"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/txt_date">
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
 
                         android:background="@drawable/card_background"
+                        android:backgroundTint="#E10B1142"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/txt_date">
+                        app:layout_constraintTop_toTopOf="@+id/txt_date">
 
                         <TextView
                             android:id="@+id/txt_weather"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
                             android:layout_marginTop="16dp"
                             android:text="@string/txt_weather"
                             android:textColor="@color/white"
                             android:textSize="18sp"
-                            app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
@@ -107,13 +117,17 @@
 
                         <ImageView
                             android:id="@+id/weather_icon"
-                            android:layout_width="90dp"
-                            android:layout_height="90dp"
-                            android:layout_marginTop="8dp"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginBottom="16dp"
                             android:src="@drawable/ic_sun_svgrepo_com"
-                            app:layout_constraintEnd_toEndOf="@+id/temprature"
-                            app:layout_constraintStart_toStartOf="@+id/temprature"
-                            app:layout_constraintTop_toBottomOf="@+id/temprature" />
+                            app:layout_constraintBottom_toBottomOf="@+id/temprature"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/temprature_unit"
+                            app:layout_constraintTop_toTopOf="@+id/txt_weather" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.cardview.widget.CardView>
@@ -149,19 +163,19 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
+                android:layout_margin="16dp"
+                android:backgroundTint="#E10B1142"
                 app:cardCornerRadius="30dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintEnd_toStartOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/daily_recycler">
 
 
                 <GridLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#32323f"
+                    android:background="#4832323F"
                     android:columnCount="3"
                     android:rowCount="2">
 
@@ -469,10 +483,10 @@
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="30dp"
-        android:backgroundTint="@color/black"
-        app:srcCompat="@drawable/ic_map"
-        app:tint="#EEE"
+        android:backgroundTint="#E10B1142"
+        app:backgroundTint="#92FFFFFF"
         app:borderWidth="0dp"
-         />
+        app:srcCompat="@drawable/ic_map"
+        app:tint="#EEE" />
 
 </RelativeLayout>
