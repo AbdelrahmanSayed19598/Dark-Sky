@@ -6,6 +6,7 @@ import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.location.Address
 import android.location.Geocoder
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
@@ -25,6 +26,7 @@ import com.example.weatherforecast.ui.viewModel.HomeFragmentViewModel
 import com.example.weatherforecast.ui.viewModel.HomeFragmentViewModelFactory
 import com.example.weatherforecast.lat
 import com.example.weatherforecast.lon
+import com.example.weatherforecast.timeZoneShared
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import kotlinx.android.synthetic.main.fragment_home.*
@@ -40,6 +42,7 @@ class HomeFragment : Fragment() {
     lateinit var latitude: String
     lateinit var lang: String
     lateinit var unit: String
+    lateinit var timeZoneSh: String
     private lateinit var viewModel: HomeFragmentViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,6 +56,9 @@ class HomeFragment : Fragment() {
     ): View? {
         setHasOptionsMenu(true)
         // Inflate the layout for this fragment
+        fusedLocationProviderClient =
+            LocationServices.getFusedLocationProviderClient(requireActivity())
+        checkLocationPermision()
 
 
         return inflater.inflate(R.layout.fragment_home, container, false)
@@ -69,10 +75,12 @@ class HomeFragment : Fragment() {
         })
 
         sharedPreferences = activity?.getSharedPreferences(lat, Context.MODE_PRIVATE)!!
+        editor = sharedPreferences.edit()
         latitude = sharedPreferences.getString("lat", "0").toString()
         longitude = sharedPreferences.getString("lon", "0").toString()
         lang = sharedPreferences.getString("lang", "en").toString()
         unit = sharedPreferences.getString("unit", "metric").toString()
+        timeZoneSh = sharedPreferences.getString(timeZoneShared, "null").toString()
 
         hourly_recycler.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
         hourly_recycler.hasFixedSize()
@@ -157,12 +165,9 @@ class HomeFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.btnCurrent -> {
-                fusedLocationProviderClient =
-                    LocationServices.getFusedLocationProviderClient(requireActivity())
-                checkLocationPermision()
 
-                sharedPreferences = activity?.getSharedPreferences(lat, Context.MODE_PRIVATE)!!
-                editor = sharedPreferences.edit()
+
+
                 Toast.makeText(
                     requireContext(),
                     "current location gotten Succesfully",
@@ -208,8 +213,29 @@ class HomeFragment : Fragment() {
 
     fun getDataForDisplay() {
         try {
-            viewModel.getData(latitude, longitude,lang,unit)
+            if(isNetworkAvailable(requireContext())){
+                viewModel.getData(latitude, longitude,lang,unit)
+            }
+            else{
+                if(timeZoneSh.equals("null")){
+                    Toast.makeText(
+                        requireContext(),
+                        "no enter net and this place didn't found in your local data",
+                        Toast.LENGTH_SHORT
+                    ).show()
+            }else{
+                    Toast.makeText(
+                        requireContext(),
+                        "no internet check your network please ",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    viewModel.getDataFromDatabase(timeZoneSh)
+            }
+
+            }
+
             viewModel.allWeather.observe(viewLifecycleOwner) {
+                editor.putString(timeZoneShared, it.timezone)
                 city_name.text = getCityName(it.lat,it.lon)
                 setData(it?.current!!)
 
@@ -226,5 +252,12 @@ class HomeFragment : Fragment() {
                 Toast.LENGTH_SHORT
             ).show()
         }
+    }
+
+    fun isNetworkAvailable(context: Context): Boolean {
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetworkInfo = connectivityManager.activeNetworkInfo
+        return activeNetworkInfo != null && activeNetworkInfo?.isConnected == true
     }
 }

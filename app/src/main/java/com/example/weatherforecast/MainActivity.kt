@@ -25,6 +25,7 @@ import java.util.*
 
 const val lat = "lat"
 const val lon = "lon"
+const val timeZoneShared = "timeZone"
 
 class MainActivity : AppCompatActivity() {
     lateinit var lang: String
@@ -41,11 +42,19 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        sharedPreferences = getSharedPreferences(lat, Context.MODE_PRIVATE)
+        editor = sharedPreferences.edit()
+
+        lang = sharedPreferences.getString("lang", "en").toString()
+        unit = sharedPreferences.getString("unit", "metric").toString()
+        setLocale(lang)
         setContentView(R.layout.activity_main)
+
         drawerLayout = findViewById(R.id.drawerLayout)
 
         val navView: NavigationView = findViewById(R.id.navView)
         val navController = findNavController(R.id.openning_fragment_home)
+
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.homeFragment, R.id.favoriteFragment, R.id.alertFragment, R.id.settingFragment
@@ -57,11 +66,6 @@ class MainActivity : AppCompatActivity() {
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
         checkLocationPermision()
 
-        sharedPreferences = getSharedPreferences(lat, Context.MODE_PRIVATE)
-        editor = sharedPreferences.edit()
-
-        lang = sharedPreferences.getString("lang", "en").toString()
-        unit = sharedPreferences.getString("unit", "metric").toString()
 
 
 
@@ -100,17 +104,17 @@ class MainActivity : AppCompatActivity() {
         super.onDestroy()
     }
 
-//    private fun setLocale(lang: String) {
-//        val locale = Locale(lang)
-//        Locale.setDefault(locale)
-//        val resources: Resources = this.resources
-//        val config: Configuration = resources.configuration
-//        config.setLocale(locale)
-//        config.setLayoutDirection(locale)
-//        resources.updateConfiguration(config, resources.displayMetrics)
-//
-//
-//    }
+    private fun setLocale(lang: String) {
+        val locale = Locale(lang)
+        Locale.setDefault(locale)
+        val resources: Resources = this.resources
+        val config: Configuration = resources.configuration
+        config.setLocale(locale)
+        config.setLayoutDirection(locale)
+        resources.updateConfiguration(config, resources.displayMetrics)
+
+
+    }
 
 //    override fun onBackPressed() {
 //        if(drawerLayout.isDrawerOpen(GravityCompat.START)){
@@ -157,7 +161,7 @@ class MainActivity : AppCompatActivity() {
 //        binding = ActivityMainBinding.inflate(layoutInflater)
 //        setContentView(binding.root)
 //
-//        setSupportActionBar(binding.appBarMain.toolbar)
+//      setSupportActionBar(binding.appBarMain.toolbar)toolbar
 //
 //        val drawerLayout: DrawerLayout = binding.drawerLayout
 //        val navView: NavigationView = binding.navView

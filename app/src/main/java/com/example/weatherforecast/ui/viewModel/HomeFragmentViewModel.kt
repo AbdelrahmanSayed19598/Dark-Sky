@@ -1,5 +1,7 @@
 package com.example.weatherforecast.ui.viewModel
 
+import android.content.Context
+import android.net.ConnectivityManager
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -26,8 +28,9 @@ class HomeFragmentViewModel(private val iRepo: RepositoryInterFace) : ViewModel(
 
         val job = viewModelScope.launch(Dispatchers.IO) {
             try {
-                weatherModel = iRepo.getWeather(lat, lon, language, units)
 
+                    weatherModel = iRepo.getWeather(lat, lon, language, units)
+               //     _allWeather.postValue(weatherModel)
             } catch (e: Exception) {
                 throw e
             }
@@ -42,8 +45,10 @@ class HomeFragmentViewModel(private val iRepo: RepositoryInterFace) : ViewModel(
 
     }
 
-    private fun getDataFromDatabase(timeZone:String){
+     fun getDataFromDatabase(timeZone:String){
         val response = iRepo.getWeatherByTimeZone(timeZone)
         _allWeather.postValue(response)
     }
+
+
 }
