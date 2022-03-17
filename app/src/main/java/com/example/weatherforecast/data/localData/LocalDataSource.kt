@@ -32,5 +32,7 @@ class LocalDataSource(private val weatherDao: WeatherDao): LocalDataSourceInter 
         weatherDao.deleteNotFav()
     }
 
-
+    override fun getAllFavoriteData(): List<WeatherModel> {
+       return weatherDao.getAllFavoriteData()
+    }
 }

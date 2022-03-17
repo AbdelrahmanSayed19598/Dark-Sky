@@ -22,15 +22,16 @@ interface RepositoryInterFace {
 
     suspend fun  getWeather(
         lat: String?, lon: String?,
-        language: String ="en",
-        units:String = "imperial"
+        language: String ,
+        units:String
                              ):WeatherModel
 
     suspend fun  insertFavoriteWeather(
         lat: String?, lon: String?,
-        language: String ="en",
-        units:String = "imperial"
+        language: String ,
+        units:String
     ):WeatherModel
 
+    fun refrechData()
 
 }

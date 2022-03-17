@@ -2,8 +2,11 @@ package com.example.weatherforecast
 
 import android.Manifest
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
+import android.content.res.Configuration
+import android.content.res.Resources
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -17,117 +20,78 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.material.navigation.NavigationView
+import java.util.*
 
 
 const val lat = "lat"
 const val lon = "lon"
 
 class MainActivity : AppCompatActivity() {
-//    lateinit var togel : ActionBarDrawerToggle
+    lateinit var lang: String
+    lateinit var unit: String
     lateinit var drawerLayout: DrawerLayout
     lateinit var fusedLocationProviderClient: FusedLocationProviderClient
-    lateinit var sharedPreferences : SharedPreferences
-    lateinit var editor : SharedPreferences.Editor
+    lateinit var sharedPreferences: SharedPreferences
+    lateinit var editor: SharedPreferences.Editor
 
     private lateinit var appBarConfiguration: AppBarConfiguration
 
 
-     var id : Int = 0
+    var id: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        drawerLayout  = findViewById(R.id.drawerLayout)
+        drawerLayout = findViewById(R.id.drawerLayout)
 
-        val navView : NavigationView = findViewById(R.id.navView)
+        val navView: NavigationView = findViewById(R.id.navView)
         val navController = findNavController(R.id.openning_fragment_home)
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.homeFragment,R.id.favoriteFragment,R.id.alertFragment,R.id.settingFragment
+                R.id.homeFragment, R.id.favoriteFragment, R.id.alertFragment, R.id.settingFragment
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
-
-
-
-//        val fragmentManager = supportFragmentManager
-//        val frahmentTransaction =fragmentManager.beginTransaction()
-//        frahmentTransaction.add(R.id.openning_fragment_home,HomeFragment(),"Home")
-//        frahmentTransaction.commit()
-//        setTitle("Home")
-
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
         checkLocationPermision()
 
-        sharedPreferences = getSharedPreferences(lat,Context.MODE_PRIVATE)
+        sharedPreferences = getSharedPreferences(lat, Context.MODE_PRIVATE)
         editor = sharedPreferences.edit()
 
+        lang = sharedPreferences.getString("lang", "en").toString()
+        unit = sharedPreferences.getString("unit", "metric").toString()
 
 
-
-
-//        togel = ActionBarDrawerToggle(this,drawerLayout,R.string.open  ,R.string.close)
-//
-//        drawerLayout.addDrawerListener(togel)
-//        togel.syncState()
-//
-//        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
-//        navView.setNavigationItemSelectedListener {
-//            when(it.itemId){
-//                R.id.homeFragment -> {
-//                    id = R.id.homeFragment
-//                    replaceFragment(HomeFragment(this),it.title.toString())
-//                drawerLayout.closeDrawer(GravityCompat.START)
-//                }
-//
-//                R.id.favoriteFragment -> {
-//                    id = R.id.favoriteFragment
-//                    replaceFragment(FavoriteFragment(),it.title.toString())
-//                    drawerLayout.closeDrawer(GravityCompat.START)
-//                }
-//                R.id.nav_alert -> {
-//                    id = R.id.nav_alert
-//                    replaceFragment(AlertFragment(),it.title.toString())
-//                    drawerLayout.closeDrawer(GravityCompat.START)
-//
-//                }
-//                R.id.nav_setting ->{
-//                    id = R.id.nav_setting
-//                    replaceFragment(SettingFragment(), it.title.toString())
-//            drawerLayout.closeDrawer(GravityCompat.START)
-//                 }
-//            }
-//            true
-//        }
 
     }
 
     private fun checkLocationPermision() {
         val task = fusedLocationProviderClient.lastLocation
-        if(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
             != PackageManager.PERMISSION_GRANTED
             && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
             != PackageManager.PERMISSION_GRANTED
         ) {
-            ActivityCompat.requestPermissions(this,
-                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),1)
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 1
+            )
             return
         }
         task.addOnSuccessListener {
-            if(it != null){
-              editor.putString(lat,it.latitude.toString())
-                editor.putString(lon,it.longitude.toString())
+            if (it != null) {
+                editor.putString(lat, it.latitude.toString())
+                editor.putString(lon, it.longitude.toString())
+                editor.putString("lang", lang)
+                editor.putString("unit", unit)
+
                 editor.putString("map", "0")
 
                 editor.apply()
             }
         }
-
 
 
     }
@@ -136,21 +100,16 @@ class MainActivity : AppCompatActivity() {
         super.onDestroy()
     }
 
-
-//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-//        if (togel.onOptionsItemSelected(item)){
-//            return true
-//        }
-//        return super.onOptionsItemSelected(item)
-//    }
-
-
-//    private fun replaceFragment(fragment : Fragment, title : String){
-//        val fragmentManager = supportFragmentManager
-//        val frahmentTransaction =fragmentManager.beginTransaction()
-//        frahmentTransaction.replace(R.id.openning_fragment_home,fragment)
-//        frahmentTransaction.commit()
-//        setTitle(title)
+//    private fun setLocale(lang: String) {
+//        val locale = Locale(lang)
+//        Locale.setDefault(locale)
+//        val resources: Resources = this.resources
+//        val config: Configuration = resources.configuration
+//        config.setLocale(locale)
+//        config.setLayoutDirection(locale)
+//        resources.updateConfiguration(config, resources.displayMetrics)
+//
+//
 //    }
 
 //    override fun onBackPressed() {
@@ -170,7 +129,6 @@ class MainActivity : AppCompatActivity() {
 ////        replaceFragment(Map(),"Map")
 //    }
 }
-
 
 
 //package com.example.weatherapp

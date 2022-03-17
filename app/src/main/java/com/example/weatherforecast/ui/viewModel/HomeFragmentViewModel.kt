@@ -19,8 +19,8 @@ class HomeFragmentViewModel(private val iRepo: RepositoryInterFace) : ViewModel(
     fun getData(
         lat: String?,
         lon: String?,
-        language: String = "en",
-        units: String = "metric"
+        language: String ,
+        units: String
     ) {
 
 

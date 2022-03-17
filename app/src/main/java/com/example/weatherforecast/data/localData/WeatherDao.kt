@@ -28,6 +28,9 @@ interface WeatherDao {
     @Query("DELETE FROM Weather WHERE isFav=0")
     fun deleteNotFav()
 
+    @Query("SELECT * FROM Weather WHERE isFav=1")
+    fun getAllFavoriteData(): List<WeatherModel>
+
 
 
 }

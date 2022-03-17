@@ -2,6 +2,8 @@ package com.example.weatherforecast.ui.favorite.view
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.location.Address
+import android.location.Geocoder
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -42,7 +44,7 @@ class FavoriteAdapter(val weatherModels: List<WeatherModel>,val context: Context
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.cityName.text = weatherModels[position].timezone.split("/")[1]
+        holder.cityName.text = getCityName(weatherModels[position].lat,weatherModels[position].lon)
         holder.deleteBtn.setOnClickListener(View.OnClickListener {
 
             viewModel.deleteData(weatherModels[position].timezone)
@@ -60,7 +62,19 @@ class FavoriteAdapter(val weatherModels: List<WeatherModel>,val context: Context
 
 
     }
-
+    private fun getCityName(lat: Double, lon: Double): String {
+        sharedPreferences = context.getSharedPreferences(com.example.weatherforecast.lat, Context.MODE_PRIVATE)
+        var lang = sharedPreferences.getString("lang", "en")
+        var city = ""
+        val geocoder = Geocoder(context, Locale(lang))
+        val addresses: List<Address> = geocoder.getFromLocation(lat, lon, 1)
+        if (addresses.isNotEmpty()) {
+            val state = addresses[0].adminArea // damietta
+            val country = addresses[0].countryName
+            city = "$state, $country"
+        }
+        return city
+    }
 
     override fun getItemCount(): Int {
         return weatherModels.size

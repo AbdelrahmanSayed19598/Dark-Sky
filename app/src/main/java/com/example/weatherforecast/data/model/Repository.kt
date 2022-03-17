@@ -3,14 +3,20 @@ package com.example.weatherforecast.data.model
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
+import android.util.Log
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.viewModelScope
 import com.example.weatherforecast.data.localData.LocalDataSource
 import com.example.weatherforecast.data.localData.LocalDataSourceInter
 import com.example.weatherforecast.data.localData.WeatherDataBase
 import com.example.weatherforecast.data.remoteData.RemoteInterFace
 import com.example.weatherforecast.data.remoteData.RetrofitHelper
 import com.example.weatherforecast.lat
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import java.lang.Exception
 
 class Repository(private val remote : RemoteInterFace,private val local : LocalDataSourceInter) : RepositoryInterFace {
@@ -20,12 +26,16 @@ class Repository(private val remote : RemoteInterFace,private val local : LocalD
         lateinit var longitude: String
         lateinit var sharedPref: SharedPreferences
         lateinit var map :String
+        lateinit var lang :String
+        lateinit var units :String
         @Volatile
         private var INSTANCE: Repository? = null
         fun getRepoInstance(application: Application): Repository {
             sharedPref = application.getSharedPreferences(lat, Context.MODE_PRIVATE)
             latitude = sharedPref.getString("lat", "0").toString()
             longitude = sharedPref.getString("lon", "0").toString()
+            lang = sharedPref.getString("lang", "en").toString()
+            units = sharedPref.getString("units", "metric").toString()
             map = sharedPref.getString("map","0").toString()
 
             return INSTANCE ?: synchronized(this) {
@@ -101,5 +111,14 @@ class Repository(private val remote : RemoteInterFace,private val local : LocalD
         }
     }
 
+    override fun refrechData() {
+        CoroutineScope(Dispatchers.IO ).launch {
 
+            var list = local.getAllFavoriteData()
+            for (item in list!!) {
+
+                insertFavoriteWeather(item.lat.toString(),item.lon.toString(), lang, units)
+            }
+        }
+    }
 }

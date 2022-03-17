@@ -1,60 +1,186 @@
 package com.example.weatherforecast.ui.view.fragment
 
+import android.Manifest
+import android.content.Context
+import android.content.Intent
+import android.content.SharedPreferences
+import android.content.pm.PackageManager
+import android.content.res.Configuration
+import android.content.res.Resources
 import android.os.Bundle
+import android.util.DisplayMetrics
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
+import com.example.weatherforecast.MainActivity
 import com.example.weatherforecast.R
+import com.example.weatherforecast.data.model.Repository
+import com.example.weatherforecast.lat
+import com.example.weatherforecast.lon
+import com.example.weatherforecast.ui.viewModel.HomeFragmentViewModel
+import com.example.weatherforecast.ui.viewModel.HomeFragmentViewModelFactory
+import com.example.weatherforecast.ui.viewModel.SettingViewModel
+import com.example.weatherforecast.ui.viewModel.SettingViewModelFactory
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
+import kotlinx.android.synthetic.main.fragment_setting.*
+import java.util.*
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [SettingFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class SettingFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    lateinit var viewModel: SettingViewModel
+    lateinit var sharedPreferences: SharedPreferences
+    lateinit var editor: SharedPreferences.Editor
+    lateinit var navControler: NavController
+    lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
+        viewModel =
+            ViewModelProvider(
+                this,
+                SettingViewModelFactory(Repository.getRepoInstance(requireActivity().application))
+            )
+                .get(SettingViewModel::class.java)
+
+
+        sharedPreferences = activity?.getSharedPreferences(lat, Context.MODE_PRIVATE)!!
+        editor = sharedPreferences.edit()
         return inflater.inflate(R.layout.fragment_setting, container, false)
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment SettingFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            SettingFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        navControler = Navigation.findNavController(view)
+
+        var lang = sharedPreferences.getString("lang", "en")
+        var unit = sharedPreferences.getString("unit", "metric")
+        when (lang) {
+            "en" -> englishRadio.isChecked = true
+            "ar" -> arabicRadio.isChecked = true
+        }
+
+        when (unit) {
+            "metric" -> celsiusRadio.isChecked = true
+            "imperial" -> fahrenhietRadio.isChecked = true
+            "standard" -> kelvinRadio.isChecked = true
+        }
+        gpsRadio.isChecked = true
+
+        arabicRadio.setOnClickListener(View.OnClickListener {
+            changeLang("ar")
+        })
+
+        englishRadio.setOnClickListener(View.OnClickListener {
+            changeLang("en")
+        })
+
+        celsiusRadio.setOnClickListener(View.OnClickListener {
+            changeUnite("metric")
+        })
+        kelvinRadio.setOnClickListener(View.OnClickListener {
+            changeUnite("standard")
+        })
+        fahrenhietRadio.setOnClickListener(View.OnClickListener {
+            changeUnite("imperial")
+        })
+
+        gpsRadio.setOnClickListener(View.OnClickListener {
+            getcurrentLocation()
+        })
+        mapRadio.setOnClickListener(View.OnClickListener {
+            Navigation.findNavController(view).navigate(R.id.action_settingFragment_to_map)
+        })
+
+
+    }
+
+
+    private fun changeUnite(units: String) {
+        editor.putString("unit", units)
+        editor.apply()
+    }
+
+
+    private fun changeLang(lang: String) {
+        editor.putString("lang", lang)
+        editor.apply()
+        viewModel.refreshData()
+        setLocale(lang)
+        //navControler.navigate(R.id.homeFragment)
+    }
+
+    private fun setLocale(lang: String) {
+        val locale = Locale(lang)
+        Locale.setDefault(locale)
+        val resources: Resources = requireActivity().resources
+        val config: Configuration = resources.configuration
+        config.setLocale(locale)
+        config.setLayoutDirection(locale)
+        Locale.setDefault(locale)
+        resources.updateConfiguration(config, resources.displayMetrics)
+
+        val refresh = Intent(requireContext(), MainActivity::class.java)
+        activity?.finish()
+
+        startActivity(refresh)
+
+    }
+
+
+    private fun getcurrentLocation() {
+        fusedLocationProviderClient =
+            LocationServices.getFusedLocationProviderClient(requireActivity())
+        checkLocationPermision()
+
+        sharedPreferences = activity?.getSharedPreferences(lat, Context.MODE_PRIVATE)!!
+        editor = sharedPreferences.edit()
+        Toast.makeText(
+            requireContext(),
+            "current location gotten Succesfully",
+            Toast.LENGTH_SHORT
+        ).show()
+
+        navControler.navigate(R.id.homeFragment)
+    }
+
+    private fun checkLocationPermision() {
+        val task = fusedLocationProviderClient.lastLocation
+        if (ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            )
+            != PackageManager.PERMISSION_GRANTED
+            && ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            )
+            != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                requireActivity(),
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 1
+            )
+            return
+        }
+        task.addOnSuccessListener {
+            if (it != null) {
+                editor.putString(lat, it.latitude.toString())
+                editor.putString(lon, it.longitude.toString())
+                editor.putString("map", "0")
+                editor.apply()
             }
+        }
     }
 }

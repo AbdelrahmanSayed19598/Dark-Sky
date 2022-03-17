@@ -13,8 +13,8 @@ class MapViewModel(private val iRepo: RepositoryInterFace) : ViewModel() {
     fun insertData(
         lat: String?,
         lon: String?,
-        language: String = "en",
-        units: String = "imperial"
+        language: String ,
+        units: String
     ) {
 
 
@@ -33,8 +33,8 @@ class MapViewModel(private val iRepo: RepositoryInterFace) : ViewModel() {
     fun insertFavoritePlace(
         lat: String?,
         lon: String?,
-        language: String = "en",
-        units: String = "imperial"
+        language: String ,
+        units: String
     ) {
         var job = viewModelScope.launch(Dispatchers.IO) {
              iRepo.insertFavoriteWeather(lat, lon, language, units)

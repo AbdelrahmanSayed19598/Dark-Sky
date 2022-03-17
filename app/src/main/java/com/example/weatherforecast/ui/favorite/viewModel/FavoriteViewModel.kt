@@ -25,7 +25,10 @@ class FavoriteViewModel(private val iRepo: RepositoryInterFace) : ViewModel() {
     val favoriteList = _favoriteList
 
     fun deleteData(timeZone: String) {
-        iRepo.deleteByTimeZone(timeZone)
+        viewModelScope.launch (Dispatchers.IO){
+            iRepo.deleteByTimeZone(timeZone)
+
+        }
     }
 
 }

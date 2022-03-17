@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="city_name">اسم المدينة</string>
+    <string name="txt_date">الجمعة 26 فبراير</string>
+    <string name="txt_weather">مشمس</string>
+    <string name="temprature">16</string>
+    <string name="txt_pressure">الضغط</string>
+    <string name="txt_himiditly">الرطوبة</string>
+    <string name="txt_wind">الرياح</string>
+    <string name="txt_cloud">السحب</string>
+    <string name="txt_ultra_violata">فوق البنفسجي</string>
+    <string name="txt_visibilty">الرؤية</string>
+    <string name="txt_day">شمس</string>
+    <string name="daily_status">سماء صافية</string>
+    <string name="language">اللغة</string>
+    <string name="location">الموقع</string>
+    <string name="units">الوحدة</string>
+    <string name="english">انجليزية</string>
+    <string name="arabic">عربية</string>
+    <string name="map">الخريطة</string>
+    <string name="gps">الموقع الحالي</string>
+    <string name="celsius">سيليزيوس</string>
+    <string name="fahrenheit">فهرنهايت</string>
+    <string name="kelvin">كالفين</string>
+    <string name="setting">الاعدادات</string>
+    <string name="alert">منبه</string>
+    <string name="favorite">الدول المفضلة</string>
+    <string name="home">الصفحة الرئيسية</string>
+    <string name="map_title">الخريطة</string>
+</resources>

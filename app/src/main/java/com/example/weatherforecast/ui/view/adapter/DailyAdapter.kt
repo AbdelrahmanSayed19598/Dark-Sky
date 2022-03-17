@@ -1,15 +1,21 @@
 package com.example.weatherforecast.ui.view.adapter
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherforecast.R
 import com.example.weatherforecast.data.model.Daily
+import com.example.weatherforecast.lat
 import kotlinx.android.synthetic.main.daily_weather_row.view.*
 import java.util.*
 
-class DailyAdapter(val dailyPojo: List<Daily>) : RecyclerView.Adapter<DailyAdapter.MyViewHolder>() {
+class DailyAdapter(val dailyPojo: List<Daily>,val context: Context) : RecyclerView.Adapter<DailyAdapter.MyViewHolder>() {
+
+    lateinit var sharedPreferences: SharedPreferences
+
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val dayTxt = itemView.txt_day!!
         val imgDaily = itemView.daily_icon!!
@@ -55,11 +61,13 @@ class DailyAdapter(val dailyPojo: List<Daily>) : RecyclerView.Adapter<DailyAdapt
     }
 
     private fun dayFormat(milliSecond: Int): String {
+        sharedPreferences = context.getSharedPreferences(lat, Context.MODE_PRIVATE)
+        var lang = sharedPreferences.getString("lang", "en")
         val calendar: Calendar = Calendar.getInstance()
         calendar.setTimeInMillis(milliSecond.toLong() * 1000)
         var date = calendar.get(Calendar.DAY_OF_MONTH)
             .toString() + "/" + (calendar.get(Calendar.MONTH) + 1).toString()
-        var day = calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault())
+        var day = calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale(lang))
             .toString()
         return day
     }

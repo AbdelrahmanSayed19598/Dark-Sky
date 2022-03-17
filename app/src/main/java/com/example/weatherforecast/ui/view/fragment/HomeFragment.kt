@@ -1,14 +1,18 @@
 package com.example.weatherforecast.ui.view.fragment
 
+import android.Manifest
 import android.content.Context
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
+import android.location.Address
+import android.location.Geocoder
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -20,14 +24,22 @@ import com.example.weatherforecast.ui.view.adapter.HourlyAdapter
 import com.example.weatherforecast.ui.viewModel.HomeFragmentViewModel
 import com.example.weatherforecast.ui.viewModel.HomeFragmentViewModelFactory
 import com.example.weatherforecast.lat
+import com.example.weatherforecast.lon
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import kotlinx.android.synthetic.main.fragment_home.*
-import kotlinx.coroutines.*
 import java.util.*
 
 
 class HomeFragment : Fragment() {
-    var job: Job? = null;
+    lateinit var navControler: NavController
+    lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     lateinit var sharedPreferences: SharedPreferences
+    lateinit var editor: SharedPreferences.Editor
+    lateinit var longitude: String
+    lateinit var latitude: String
+    lateinit var lang: String
+    lateinit var unit: String
     private lateinit var viewModel: HomeFragmentViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,6 +51,7 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        setHasOptionsMenu(true)
         // Inflate the layout for this fragment
 
 
@@ -48,14 +61,18 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        navControler = Navigation.findNavController(view)
+
 
         map_btn_from_home.setOnClickListener(View.OnClickListener {
             Navigation.findNavController(view).navigate(R.id.action_homeFragment_to_map2)
         })
 
         sharedPreferences = activity?.getSharedPreferences(lat, Context.MODE_PRIVATE)!!
-        var latitude = sharedPreferences.getString("lat", "0")
-        var longitude = sharedPreferences.getString("lon", "0")
+        latitude = sharedPreferences.getString("lat", "0").toString()
+        longitude = sharedPreferences.getString("lon", "0").toString()
+        lang = sharedPreferences.getString("lang", "en").toString()
+        unit = sharedPreferences.getString("unit", "metric").toString()
 
         hourly_recycler.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
         hourly_recycler.hasFixedSize()
@@ -69,25 +86,7 @@ class HomeFragment : Fragment() {
                 HomeFragmentViewModelFactory(Repository.getRepoInstance(requireActivity().application))
             )
                 .get(HomeFragmentViewModel::class.java)
-        try {
-            viewModel.getData(latitude, longitude)
-            viewModel.allWeather.observe(viewLifecycleOwner) {
-                city_name.text = it.timezone.split("/")[1]
-                setData(it?.current!!)
-
-                val hourlyAdapter = HourlyAdapter(it?.hourly ?: emptyList())
-                hourly_recycler.adapter = hourlyAdapter
-
-                val dailyAdapter = DailyAdapter(it?.daily ?: emptyList())
-                daily_recycler.adapter = dailyAdapter
-            }
-        } catch (e: Exception) {
-            Toast.makeText(
-                requireContext(),
-                "${e.message}",
-                Toast.LENGTH_SHORT
-            ).show()
-        }
+        getDataForDisplay()
 
 
     }
@@ -95,8 +94,8 @@ class HomeFragment : Fragment() {
 
     private fun setData(it: Current) {
         txt_date.text = dateFormat(it.dt.toInt())
-        txt_weather.text = it.weather.get(0).main.toString()
-        temprature.text = it.temp.toString()
+        txt_weather.text = it.weather[0].description.toString()
+        temprature.text = it.temp.toInt().toString()
         temprature_unit.text = "°c"
         txt_cloud_value.text = it.clouds.toString() + " %"
         txt_pressure_value.text = it.pressure.toString() + "hpa"
@@ -127,15 +126,105 @@ class HomeFragment : Fragment() {
         }
 
     }
+    private fun getCityName(lat: Double, lon: Double): String {
+        var city = ""
+        val geocoder = Geocoder(context, Locale(lang))
+        val addresses: List<Address> = geocoder.getFromLocation(lat, lon, 1)
+        if (addresses.isNotEmpty()) {
+            val state = addresses[0].adminArea // damietta
+            val country = addresses[0].countryName
+            city = "$state, $country"
+        }
+        return city
+    }
 
     private fun dateFormat(milliSeconds: Int): String {
         // Create a calendar object that will convert the date and time value in milliseconds to date.
         val calendar: Calendar = Calendar.getInstance()
         calendar.setTimeInMillis(milliSeconds.toLong() * 1000)
-        var month = calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault())
+        var month = calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale(lang))
         var day = calendar.get(Calendar.DAY_OF_MONTH).toString()
         var year = calendar.get(Calendar.YEAR).toString()
         return day + " " + month + " " + year
 
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        requireActivity().menuInflater.inflate(R.menu.location_current, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.btnCurrent -> {
+                fusedLocationProviderClient =
+                    LocationServices.getFusedLocationProviderClient(requireActivity())
+                checkLocationPermision()
+
+                sharedPreferences = activity?.getSharedPreferences(lat, Context.MODE_PRIVATE)!!
+                editor = sharedPreferences.edit()
+                Toast.makeText(
+                    requireContext(),
+                    "current location gotten Succesfully",
+                    Toast.LENGTH_SHORT
+                ).show()
+
+                navControler.navigate(R.id.homeFragment)
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun checkLocationPermision() {
+        val task = fusedLocationProviderClient.lastLocation
+        if (ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            )
+            != PackageManager.PERMISSION_GRANTED
+            && ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            )
+            != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                requireActivity(),
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 1
+            )
+            return
+        }
+        task.addOnSuccessListener {
+            if (it != null) {
+                editor.putString(lat, it.latitude.toString())
+                editor.putString(lon, it.longitude.toString())
+                editor.putString("map", "0")
+                editor.apply()
+            }
+        }
+
+
+    }
+
+    fun getDataForDisplay() {
+        try {
+            viewModel.getData(latitude, longitude,lang,unit)
+            viewModel.allWeather.observe(viewLifecycleOwner) {
+                city_name.text = getCityName(it.lat,it.lon)
+                setData(it?.current!!)
+
+                val hourlyAdapter = HourlyAdapter(it?.hourly ?: emptyList(),requireContext())
+                hourly_recycler.adapter = hourlyAdapter
+
+                val dailyAdapter = DailyAdapter(it?.daily ?: emptyList(),requireContext())
+                daily_recycler.adapter = dailyAdapter
+            }
+        } catch (e: Exception) {
+            Toast.makeText(
+                requireContext(),
+                "${e.message}",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
     }
 }

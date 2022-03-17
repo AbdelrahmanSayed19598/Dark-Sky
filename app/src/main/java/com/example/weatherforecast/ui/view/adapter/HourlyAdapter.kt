@@ -1,20 +1,26 @@
 package com.example.weatherforecast.ui.view.adapter
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherforecast.R
 import com.example.weatherforecast.data.model.Hourly
+import com.example.weatherforecast.lat
 import kotlinx.android.synthetic.main.hourly_weather_row.view.*
 import java.text.SimpleDateFormat
 import java.util.*
 
-class HourlyAdapter (val hoursPojo: List<Hourly>): RecyclerView.Adapter<HourlyAdapter.MyViewHolder>() {
+class HourlyAdapter (val hoursPojo: List<Hourly>,val context: Context): RecyclerView.Adapter<HourlyAdapter.MyViewHolder>() {
+    lateinit var sharedPreferences: SharedPreferences
+
     class MyViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
         val hoursTxt =itemView.txtHours!!
         val imgHourly =itemView.imgHourly!!
         val tempratureTxt = itemView.txtTempreture!!
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -24,7 +30,6 @@ class HourlyAdapter (val hoursPojo: List<Hourly>): RecyclerView.Adapter<HourlyAd
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.hoursTxt.text = timeFormat( hoursPojo[position].dt.toInt())
-       // holder.imgHourly.setImageResource(hoursPojo[position].img)
         holder.tempratureTxt.text = (hoursPojo[position].temp.toInt()).toString()+"°c"
 
 
@@ -52,9 +57,12 @@ class HourlyAdapter (val hoursPojo: List<Hourly>): RecyclerView.Adapter<HourlyAd
     }
 
     private fun timeFormat(millisSeconds:Int ): String {
+        sharedPreferences = context.getSharedPreferences(lat, Context.MODE_PRIVATE)
+        var lang = sharedPreferences.getString("lang", "en")
+
         val calendar = Calendar.getInstance()
         calendar.setTimeInMillis((millisSeconds * 1000).toLong())
-        val format = SimpleDateFormat("hh:00 aaa")
+        val format = SimpleDateFormat("hh:00 aaa", Locale(lang))
         return format.format(calendar.time)
     }
 

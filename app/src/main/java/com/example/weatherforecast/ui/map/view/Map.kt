@@ -27,6 +27,8 @@ class Map : Fragment() {
     lateinit var editor: SharedPreferences.Editor
     var latitude: Double = 0.0
     var longitude: Double = 0.0
+    lateinit var lang:String
+    lateinit var unit:String
     lateinit var navControler: NavController
 
     var flag :Boolean = false
@@ -53,9 +55,10 @@ class Map : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         setHasOptionsMenu(true)
+
         sharedPreferences = activity?.getSharedPreferences(lat, Context.MODE_PRIVATE)!!
-        latitude = sharedPreferences.getString("lat", "33")?.toDouble()!!
-        longitude = sharedPreferences.getString("lon", "-94.04")?.toDouble()!!
+        latitude = sharedPreferences.getString("lat", "0")?.toDouble()!!
+        longitude = sharedPreferences.getString("lon", "0")?.toDouble()!!
         return inflater.inflate(R.layout.fragment_map, container, false)
     }
 
@@ -76,16 +79,19 @@ class Map : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.btnSave -> {
+                lang = sharedPreferences.getString("lang", "en").toString()
+                unit = sharedPreferences.getString("unit", "metric").toString()
                 viewModel =
                     ViewModelProvider(
                         this,
                         MapViewModelFactory(Repository.getRepoInstance(requireActivity().application))
                     ).get(MapViewModel::class.java)
                 if(flag == false)
-                {
-                    viewModel.insertData(latitude.toString(), longitude.toString())
-                    sharedPreferences =
-                        requireActivity().getSharedPreferences(lat, Context.MODE_PRIVATE)
+                { sharedPreferences =
+                    requireActivity().getSharedPreferences(lat, Context.MODE_PRIVATE)
+
+                    viewModel.insertData(latitude.toString(), longitude.toString(),lang,unit)
+
                     editor = sharedPreferences.edit()
 
                     editor.putString(lat, latitude.toString())
@@ -95,7 +101,7 @@ class Map : Fragment() {
                     navControler.navigate(R.id.homeFragment)
                 }
                 else{
-                    viewModel.insertFavoritePlace(latitude.toString(), longitude.toString())
+                    viewModel.insertFavoritePlace(latitude.toString(), longitude.toString(),lang,unit)
 
                     navControler.navigate(R.id.favoriteFragment)
                 }

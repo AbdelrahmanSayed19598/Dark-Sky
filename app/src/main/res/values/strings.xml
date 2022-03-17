@@ -1,24 +1,24 @@
 <resources>
-    <string name="app_name">Home</string>
-    <string name="open">Open</string>
-    <string name="close">Close</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="app_name" translatable="false">weather</string>
+    <string name="open" translatable="false">Open</string>
+    <string name="close" translatable="false">Close</string>
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string name="city_name">City Name</string>
     <string name="txt_date">fri 26 feb</string>
     <string name="txt_weather">sunny</string>
     <string name="temprature">16</string>
-    <string name="temprature_unit">ْ C</string>
-    <string name="pressure_value">1006 hpa</string>
+    <string name="temprature_unit" translatable="false">ْ C</string>
+    <string name="pressure_value" translatable="false">1006 hpa</string>
     <string name="txt_pressure">pressure</string>
-    <string name="himidiatly_value">100 %</string>
-    <string name="txt_himiditly">Himiditly</string>
-    <string name="wind_value">2.69 m/s</string>
+    <string name="himidiatly_value" translatable="false">100 %</string>
+    <string name="txt_himiditly">Himidity</string>
+    <string name="wind_value" translatable="false">2.69 m/s</string>
     <string name="txt_wind">Wind</string>
-    <string name="cloud_value">98 %</string>
+    <string name="cloud_value" translatable="false">98 %</string>
     <string name="txt_cloud">Cloud</string>
-    <string name="ultra_violate_value">0.0</string>
+    <string name="ultra_violate_value" translatable="false">0.0</string>
     <string name="txt_ultra_violata">Ultra Violata</string>
-    <string name="visibilty_value">115 m</string>
+    <string name="visibilty_value" translatable="false">115 m</string>
     <string name="txt_visibilty">Visibilty</string>
     <string name="txt_day">Sun</string>
     <string name="daily_status">clear sky</string>
@@ -28,9 +28,14 @@
     <string name="english">English</string>
     <string name="arabic">Arabic</string>
     <string name="map">Map</string>
-    <string name="gps">GPS</string>
+    <string name="gps">current location</string>
     <string name="celsius">Celsius</string>
     <string name="fahrenheit">Fahrenheit</string>
     <string name="kelvin">kelvin</string>
+    <string name="setting">Setting</string>
+    <string name="alert">Alert</string>
+    <string name="favorite">Favorite</string>
+    <string name="home">Home</string>
+    <string name="map_title">MAP</string>
 
 </resources>

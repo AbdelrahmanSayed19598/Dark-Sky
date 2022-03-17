@@ -17,4 +17,6 @@ interface LocalDataSourceInter {
 
     fun getWeatherByTimeZoneAndNotFav(timezone: String): WeatherModel
     fun deleteNotFav()
+    fun getAllFavoriteData(): List<WeatherModel>
+
 }

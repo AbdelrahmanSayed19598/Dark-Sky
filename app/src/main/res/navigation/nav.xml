@@ -8,10 +8,10 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.example.weatherforecast.ui.view.fragment.HomeFragment"
-        android:label="Home">
+        android:label="@string/home">
         <action
             android:id="@+id/action_homeFragment_to_map2"
-            app:destination="@id/map2" >
+            app:destination="@id/map" >
             <argument
                 android:name="mapArg"
                 app:argType="boolean"
@@ -20,17 +20,17 @@
         </action>
     </fragment>
     <fragment
-        android:id="@+id/map2"
+        android:id="@+id/map"
         android:name="com.example.weatherforecast.ui.map.view.Map"
-        android:label="fragment_map"
+        android:label="@string/map_title"
         tools:layout="@layout/fragment_map" />
     <fragment
         android:id="@+id/favoriteFragment"
         android:name="com.example.weatherforecast.ui.favorite.view.FavoriteFragment"
-        android:label="Favorite">
+        android:label="@string/favorite">
         <action
             android:id="@+id/action_favoriteFragment_to_map2"
-            app:destination="@id/map2" >
+            app:destination="@id/map" >
             <argument
                 android:name="mapArg"
                 app:argType="boolean"
@@ -44,9 +44,19 @@
     <fragment
         android:id="@+id/settingFragment"
         android:name="com.example.weatherforecast.ui.view.fragment.SettingFragment"
-        android:label="Setting" />
+        android:label="@string/setting" >
+        <action
+            android:id="@+id/action_settingFragment_to_map"
+            app:destination="@id/map" >
+            <argument
+                android:name="mapArg"
+                app:argType="boolean"
+                android:defaultValue="false"
+                />
+        </action>
+    </fragment>
     <fragment
         android:id="@+id/alertFragment"
         android:name="com.example.weatherforecast.ui.view.fragment.AlertFragment"
-        android:label="Alert" />
+        android:label="@string/alert" />
 </navigation>
