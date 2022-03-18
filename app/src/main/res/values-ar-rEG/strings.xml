@@ -31,4 +31,9 @@
     <string name="frome" translatable="false">من</string>
     <string name="to" translatable="false">الى</string>
     <string name="save" translatable="false">حفظ</string>
+    <string name="current_toast">نم تحديد موقعك الحالي</string>
+    <string name="check_network">لا يوجد اتصال بالانتر نت يرجي التحقق اولا</string>
+    <string name="noCountry">لا يوجد انترنت ولا يوجد بيانات مسجلة</string>
+    <string name="map_selection">تم تحديد الموقع المختار بنجاح</string>
+    <string name="fav_map_selection">هذا المكان تم اضافته الى الامان المفضلة بنجاح</string>
 </resources>

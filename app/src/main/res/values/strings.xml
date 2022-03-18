@@ -39,6 +39,12 @@
     <string name="map_title">MAP</string>
     <string name="time_picker">choose time</string>
     <string name="date_picker">choose date</string>
+    <string name="current_toast">current location gotten Succesfully</string>
+    <string name="check_network">no internet check your network please </string>
+    <string name="noCountry">no enter net and this place didn\'t found in your local data</string>
+    <string name="map_selection">chosen country gotten successfully</string>
+    <string name="fav_map_selection">this country saved to favorite successfully</string>
+
     <!-- Preference Titles -->
     <string name="messages_header" translatable="false">Messages</string>
     <string name="sync_header" translatable="false">Sync</string>

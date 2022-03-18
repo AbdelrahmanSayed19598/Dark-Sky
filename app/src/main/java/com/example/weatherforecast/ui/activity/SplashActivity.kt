@@ -34,9 +34,6 @@ class SplashActivity : AppCompatActivity() {
         unit = sharedPreferences.getString("unit", "metric").toString()
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
         checkLocationPermision()
-//        splashImage.setAnimation(
-//            AnimationUtils.loadAnimation(this, R.anim.down_to_up_anim)
-//        )
         logo_splash.setAnimation(
             AnimationUtils.loadAnimation(this, R.anim.up_to_down_anim)
         )

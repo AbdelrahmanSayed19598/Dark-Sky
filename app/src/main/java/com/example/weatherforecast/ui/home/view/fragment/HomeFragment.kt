@@ -187,7 +187,7 @@ class HomeFragment : Fragment() {
                 checkLocationPermision()
                 Toast.makeText(
                     requireContext(),
-                    "current location gotten Succesfully",
+                    getString(R.string.current_toast),
                     Toast.LENGTH_SHORT
                 ).show()
 
@@ -229,7 +229,7 @@ class HomeFragment : Fragment() {
         } else {
             Toast.makeText(
                 requireContext(),
-                "check your network",
+                getString(R.string.check_network),
                 Toast.LENGTH_SHORT
             ).show()
         }
@@ -241,14 +241,14 @@ class HomeFragment : Fragment() {
                     "null" -> {
                         Toast.makeText(
                             requireContext(),
-                            "no enter net and this place didn't found in your local data",
+                            getString(R.string.noCountry),
                             Toast.LENGTH_LONG
                         ).show()
                     }
                     else ->
                         Toast.makeText(
                             requireContext(),
-                            "no internet check your network please ",
+                            getString(R.string.check_network),
                             Toast.LENGTH_LONG
                         ).show()
                 }

@@ -145,7 +145,7 @@ class SettingFragment : Fragment() {
         editor = sharedPreferences.edit()
         Toast.makeText(
             requireContext(),
-            "current location gotten Succesfully",
+            getString(R.string.map_selection),
             Toast.LENGTH_SHORT
         ).show()
 

@@ -103,7 +103,7 @@ class Map : Fragment() {
                         navControler.navigate(R.id.homeFragment)
                         Toast.makeText(
                             requireContext(),
-                            "chosen country gotten successfully ",
+                            getString(R.string.map_selection),
                             Toast.LENGTH_SHORT
                         ).show()
                     } else {
@@ -117,7 +117,7 @@ class Map : Fragment() {
                         navControler.navigate(R.id.favoriteFragment)
                         Toast.makeText(
                             requireContext(),
-                            "this country saved successfully",
+                            getString(R.string.fav_map_selection),
                             Toast.LENGTH_SHORT
                         ).show()
                     }
@@ -125,7 +125,7 @@ class Map : Fragment() {
                 } else {
                     Toast.makeText(
                         requireContext(),
-                        "no internet please check your network",
+                        getString(R.string.check_network),
                         Toast.LENGTH_SHORT
                     ).show()
                 }
