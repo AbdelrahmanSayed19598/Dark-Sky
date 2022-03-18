@@ -1,4 +1,4 @@
-package com.example.weatherforecast.ui.view.adapter
+package com.example.weatherforecast.ui.home.view.adapter
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherforecast.R
 import com.example.weatherforecast.data.model.Hourly
-import com.example.weatherforecast.lat
+import com.example.weatherforecast.ui.activity.lat
 import kotlinx.android.synthetic.main.hourly_weather_row.view.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -29,9 +29,19 @@ class HourlyAdapter (val hoursPojo: List<Hourly>,val context: Context): Recycler
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.hoursTxt.text = timeFormat( hoursPojo[position].dt.toInt())
-        holder.tempratureTxt.text = (hoursPojo[position].temp.toInt()).toString()+"°c"
+        sharedPreferences = context.getSharedPreferences(lat, Context.MODE_PRIVATE)
+        var lang = sharedPreferences.getString("lang", "en").toString()
+        var unit =sharedPreferences.getString("unit", "metric")
 
+        holder.hoursTxt.text = timeFormat( hoursPojo[position].dt.toInt(),lang)
+
+
+        when(unit){
+
+            "imperial" ->  holder.tempratureTxt.text =  arabicToEnglish(hoursPojo[position].temp.toInt().toString(),lang)+"°f"
+            "metric" -> holder.tempratureTxt.text = arabicToEnglish(hoursPojo[position].temp.toInt().toString(),lang)+"°c"
+            "standard" -> holder.tempratureTxt.text = arabicToEnglish(hoursPojo[position].temp.toInt().toString(),lang)+"°k"
+        }
 
         when(hoursPojo[position].weather.get(0).icon){
 
@@ -56,10 +66,7 @@ class HourlyAdapter (val hoursPojo: List<Hourly>,val context: Context): Recycler
         }
     }
 
-    private fun timeFormat(millisSeconds:Int ): String {
-        sharedPreferences = context.getSharedPreferences(lat, Context.MODE_PRIVATE)
-        var lang = sharedPreferences.getString("lang", "en")
-
+    private fun timeFormat(millisSeconds: Int, lang: String?): String {
         val calendar = Calendar.getInstance()
         calendar.setTimeInMillis((millisSeconds * 1000).toLong())
         val format = SimpleDateFormat("hh:00 aaa", Locale(lang))
@@ -68,5 +75,31 @@ class HourlyAdapter (val hoursPojo: List<Hourly>,val context: Context): Recycler
 
     override fun getItemCount(): Int {
         return hoursPojo.size
+    }
+    fun arabicToEnglish(str: String, lang:String):String {
+
+        if(lang.equals("ar")) {
+            var result = ""
+            var en = '0'
+            for (ch in str) {
+                en = ch
+                when (ch) {
+                    '0' -> en = '۰'
+                    '1' -> en = '۱'
+                    '2' -> en = '۲'
+                    '3' -> en = '۳'
+                    '4' -> en = '٤'
+                    '5' -> en = '۵'
+                    '6' -> en = '٦'
+                    '7' -> en = '۷'
+                    '8' -> en = '۸'
+                    '9' -> en = '۹'
+                }
+                result = "${result}$en"
+            }
+            return result
+        }else{
+            return str
+        }
     }
 }

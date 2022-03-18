@@ -33,5 +33,9 @@ interface RepositoryInterFace {
     ):WeatherModel
 
     fun refrechData()
+    fun getWeatherByLatLong(lat: String, lng: String): WeatherModel
 
+    suspend fun  insertAlert(weatherAlert: WeatherAlert)
+    fun getAllAlerts():Flow<List<WeatherAlert>>
+    suspend fun deleteAlerts(id:Int)
 }

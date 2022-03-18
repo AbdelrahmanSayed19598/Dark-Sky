@@ -1,12 +1,12 @@
 <resources>
-    <string name="app_name" translatable="false">weather</string>
+    <string name="app_name" translatable="false">DARK Sky</string>
     <string name="open" translatable="false">Open</string>
     <string name="close" translatable="false">Close</string>
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string name="city_name">City Name</string>
     <string name="txt_date">fri 26 feb</string>
     <string name="txt_weather">sunny</string>
-    <string name="temprature">16</string>
+    <string name="temprature" translatable="false">16</string>
     <string name="temprature_unit" translatable="false">ْ C</string>
     <string name="pressure_value" translatable="false">1006 hpa</string>
     <string name="txt_pressure">pressure</string>
@@ -37,5 +37,24 @@
     <string name="favorite">Favorite</string>
     <string name="home">Home</string>
     <string name="map_title">MAP</string>
+    <string name="time_picker">choose time</string>
+    <string name="date_picker">choose date</string>
+    <!-- Preference Titles -->
+    <string name="messages_header" translatable="false">Messages</string>
+    <string name="sync_header" translatable="false">Sync</string>
+
+    <!-- Messages Preferences -->
+    <string name="signature_title" translatable="false">Your signature</string>
+    <string name="reply_title" translatable="false">Default reply action</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title" translatable="false">Sync email periodically</string>
+    <string name="attachment_title" translatable="false">Download incoming attachments</string>
+    <string name="attachment_summary_on" translatable="false">Automatically download attachments for incoming emails
+    </string>
+    <string name="attachment_summary_off" translatable="false">Only download attachments when manually requested</string>
+    <string name="frome">Frome</string>
+    <string name="to">to</string>
+    <string name="save">save</string>
 
 </resources>

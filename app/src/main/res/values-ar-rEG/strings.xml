@@ -3,7 +3,6 @@
     <string name="city_name">اسم المدينة</string>
     <string name="txt_date">الجمعة 26 فبراير</string>
     <string name="txt_weather">مشمس</string>
-    <string name="temprature">16</string>
     <string name="txt_pressure">الضغط</string>
     <string name="txt_himiditly">الرطوبة</string>
     <string name="txt_wind">الرياح</string>
@@ -27,4 +26,9 @@
     <string name="favorite">الدول المفضلة</string>
     <string name="home">الصفحة الرئيسية</string>
     <string name="map_title">الخريطة</string>
+    <string name="time_picker" translatable="false">اختر الوقت</string>
+    <string name="date_picker" translatable="false">اختر التاريخ</string>
+    <string name="frome" translatable="false">من</string>
+    <string name="to" translatable="false">الى</string>
+    <string name="save" translatable="false">حفظ</string>
 </resources>

@@ -13,11 +13,7 @@ import com.example.weatherforecast.R
 import com.example.weatherforecast.data.model.Repository
 import com.example.weatherforecast.ui.favorite.viewModel.FavoriteViewModel
 import com.example.weatherforecast.ui.favorite.viewModel.FavoriteViewModelFactory
-import com.example.weatherforecast.ui.view.adapter.HourlyAdapter
-import com.example.weatherforecast.ui.viewModel.HomeFragmentViewModel
-import com.example.weatherforecast.ui.viewModel.HomeFragmentViewModelFactory
 import kotlinx.android.synthetic.main.fragment_favorite.*
-import kotlinx.android.synthetic.main.fragment_home.*
 
 
 class FavoriteFragment : Fragment() {

@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.example.weatherforecast.ui.view.fragment.HomeFragment"
+        android:name="com.example.weatherforecast.ui.home.view.fragment.HomeFragment"
         android:label="@string/home">
         <action
             android:id="@+id/action_homeFragment_to_map2"
@@ -43,7 +43,7 @@
     </fragment>
     <fragment
         android:id="@+id/settingFragment"
-        android:name="com.example.weatherforecast.ui.view.fragment.SettingFragment"
+        android:name="com.example.weatherforecast.ui.setting.view.SettingFragment"
         android:label="@string/setting" >
         <action
             android:id="@+id/action_settingFragment_to_map"
@@ -57,6 +57,15 @@
     </fragment>
     <fragment
         android:id="@+id/alertFragment"
-        android:name="com.example.weatherforecast.ui.view.fragment.AlertFragment"
-        android:label="@string/alert" />
+        android:name="com.example.weatherforecast.ui.alarm.view.AlertFragment"
+        android:label="@string/alert" >
+        <action
+            android:id="@+id/action_alertFragment_to_alertDialog"
+            app:destination="@id/alertDialog" />
+    </fragment>
+    <dialog
+        android:id="@+id/alertDialog"
+        android:name="com.example.weatherforecast.ui.alarm.view.AlertDialog"
+        android:label="fragment_alert_dialog"
+        tools:layout="@layout/fragment_alert_dialog" />
 </navigation>

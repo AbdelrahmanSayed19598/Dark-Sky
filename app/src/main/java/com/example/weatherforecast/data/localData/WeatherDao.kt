@@ -1,10 +1,8 @@
 package com.example.weatherforecast.data.localData
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
+import com.example.weatherforecast.data.model.WeatherAlert
 import com.example.weatherforecast.data.model.WeatherModel
 import kotlinx.coroutines.flow.Flow
 
@@ -30,6 +28,18 @@ interface WeatherDao {
 
     @Query("SELECT * FROM Weather WHERE isFav=1")
     fun getAllFavoriteData(): List<WeatherModel>
+
+    @Query("SELECT * FROM Weather WHERE lat=:lat AND lon=:lng ")
+    fun getWeatherByLatLong(lat: String, lng: String): WeatherModel
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun  insertAlert(weatherAlert: WeatherAlert)
+
+    @Query("SELECT * FROM alert")
+    fun getAllAlerts():Flow<List<WeatherAlert>>
+
+    @Query("DELETE FROM alert WHERE id =:id")
+    suspend fun deleteAlerts(id:Int)
 
 
 

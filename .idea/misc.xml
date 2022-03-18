@@ -21,9 +21,11 @@
         <entry key="..\:/ITI/kotlen/weatherforecast/app/src/main/res/drawable/ic_wind_svgrepo_com.xml" value="0.1345" />
         <entry key="..\:/ITI/kotlen/weatherforecast/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/ITI/kotlen/weatherforecast/app/src/main/res/layout/activity_splash.xml" value="0.20416666666666666" />
+        <entry key="..\:/ITI/kotlen/weatherforecast/app/src/main/res/layout/alert_row.xml" value="0.20416666666666666" />
         <entry key="..\:/ITI/kotlen/weatherforecast/app/src/main/res/layout/daily_weather_row.xml" value="0.25" />
         <entry key="..\:/ITI/kotlen/weatherforecast/app/src/main/res/layout/fav_row.xml" value="0.20416666666666666" />
         <entry key="..\:/ITI/kotlen/weatherforecast/app/src/main/res/layout/fragment_alert.xml" value="0.17074275362318841" />
+        <entry key="..\:/ITI/kotlen/weatherforecast/app/src/main/res/layout/fragment_alert_dialog.xml" value="0.20416666666666666" />
         <entry key="..\:/ITI/kotlen/weatherforecast/app/src/main/res/layout/fragment_favorite.xml" value="0.17074275362318841" />
         <entry key="..\:/ITI/kotlen/weatherforecast/app/src/main/res/layout/fragment_home.xml" value="0.2131782945736434" />
         <entry key="..\:/ITI/kotlen/weatherforecast/app/src/main/res/layout/fragment_map.xml" value="0.22" />

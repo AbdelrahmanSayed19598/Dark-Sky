@@ -4,18 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="16dp"
-    android:layout_marginTop="16dp"
-    android:layout_marginEnd="16dp"
-    android:backgroundTint="#4B2146B5"
-    app:cardBackgroundColor="#A81D50A6"
+    android:layout_marginStart="8dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginEnd="8dp"
+    android:backgroundTint="#E1090E35"
     app:cardCornerRadius="15dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/fav_constraint"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="#393D5583">
+        android:backgroundTint="#E1090E35">
 
         <TextView
             android:id="@+id/fav_city_name"

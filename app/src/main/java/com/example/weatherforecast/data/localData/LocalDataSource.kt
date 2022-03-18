@@ -2,6 +2,7 @@ package com.example.weatherforecast.data.localData
 
 import android.app.Application
 import androidx.lifecycle.LiveData
+import com.example.weatherforecast.data.model.WeatherAlert
 import com.example.weatherforecast.data.model.WeatherModel
 import kotlinx.coroutines.flow.Flow
 
@@ -12,7 +13,7 @@ class LocalDataSource(private val weatherDao: WeatherDao): LocalDataSourceInter 
         return weatherDao.getAll()
     }
 
-    override fun getWeatherByLatLon(timeZone: String): WeatherModel {
+    override fun getWeatherByTimeZone(timeZone: String): WeatherModel {
         return weatherDao.getWeatherByTimeZone(timeZone)
     }
 
@@ -22,6 +23,10 @@ class LocalDataSource(private val weatherDao: WeatherDao): LocalDataSourceInter 
 
     override fun deleteByTimeZone(timeZone :String){
         weatherDao.deleteByTimeZone(timeZone)
+    }
+
+    override fun getWeatherByLatLong(lat: String, lng: String): WeatherModel {
+       return weatherDao.getWeatherByLatLong(lat,lng)
     }
 
     override fun getWeatherByTimeZoneAndNotFav(timezone: String): WeatherModel {
@@ -34,5 +39,17 @@ class LocalDataSource(private val weatherDao: WeatherDao): LocalDataSourceInter 
 
     override fun getAllFavoriteData(): List<WeatherModel> {
        return weatherDao.getAllFavoriteData()
+    }
+
+    override suspend fun insertAlert(weatherAlert: WeatherAlert) {
+        weatherDao.insertAlert(weatherAlert)
+    }
+
+    override fun getAllAlerts(): Flow<List<WeatherAlert>> {
+        return weatherDao.getAllAlerts()
+    }
+
+    override suspend fun deleteAlerts(id: Int) {
+        weatherDao.deleteAlerts(id)
     }
 }

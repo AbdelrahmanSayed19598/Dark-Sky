@@ -1,15 +1,12 @@
-package com.example.weatherforecast
+package com.example.weatherforecast.ui.activity
 
 import android.Manifest
 import android.content.Context
-import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.content.res.Resources
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.drawerlayout.widget.DrawerLayout
@@ -17,6 +14,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.example.weatherforecast.R
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.material.navigation.NavigationView
@@ -25,7 +23,7 @@ import java.util.*
 
 const val lat = "lat"
 const val lon = "lon"
-const val timeZoneShared = "timeZone"
+const val timeZoneShared = "time"
 
 class MainActivity : AppCompatActivity() {
     lateinit var lang: String

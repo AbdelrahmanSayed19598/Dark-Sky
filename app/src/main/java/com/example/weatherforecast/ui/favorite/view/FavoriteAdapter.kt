@@ -7,21 +7,16 @@ import android.location.Geocoder
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherforecast.R
-import com.example.weatherforecast.data.model.Daily
 import com.example.weatherforecast.data.model.Repository
 import com.example.weatherforecast.data.model.WeatherModel
-import com.example.weatherforecast.lat
-import com.example.weatherforecast.lon
+import com.example.weatherforecast.ui.activity.lat
+import com.example.weatherforecast.ui.activity.lon
+import com.example.weatherforecast.ui.activity.timeZoneShared
 import com.example.weatherforecast.ui.favorite.viewModel.FavoriteViewModel
-import com.example.weatherforecast.ui.favorite.viewModel.FavoriteViewModelFactory
-import com.example.weatherforecast.ui.view.adapter.DailyAdapter
-import kotlinx.android.synthetic.main.daily_weather_row.view.*
 import kotlinx.android.synthetic.main.fav_row.view.*
-import kotlinx.android.synthetic.main.fragment_home.view.*
 import java.util.*
 
 class FavoriteAdapter(val weatherModels: List<WeatherModel>,val context: Context,val viewModel :FavoriteViewModel) : RecyclerView.Adapter<FavoriteAdapter.MyViewHolder>() {
@@ -50,11 +45,13 @@ class FavoriteAdapter(val weatherModels: List<WeatherModel>,val context: Context
             viewModel.deleteData(weatherModels[position].timezone)
         })
         holder.constrain.setOnClickListener(View.OnClickListener {
+
             sharedPreferences = context.getSharedPreferences(lat, Context.MODE_PRIVATE)
             editor = sharedPreferences.edit()
 
             editor.putString(lat, weatherModels[position].lat.toString())
             editor.putString(lon, weatherModels[position].lon.toString())
+            Repository.editor.putString(timeZoneShared, weatherModels[position].timezone)
             editor.putString("map", "1")
             editor.apply()
             Navigation.findNavController(it).navigate(R.id.action_favoriteFragment_to_homeFragment)
@@ -63,15 +60,14 @@ class FavoriteAdapter(val weatherModels: List<WeatherModel>,val context: Context
 
     }
     private fun getCityName(lat: Double, lon: Double): String {
-        sharedPreferences = context.getSharedPreferences(com.example.weatherforecast.lat, Context.MODE_PRIVATE)
+        sharedPreferences = context.getSharedPreferences(com.example.weatherforecast.ui.activity.lat, Context.MODE_PRIVATE)
         var lang = sharedPreferences.getString("lang", "en")
         var city = ""
         val geocoder = Geocoder(context, Locale(lang))
         val addresses: List<Address> = geocoder.getFromLocation(lat, lon, 1)
         if (addresses.isNotEmpty()) {
             val state = addresses[0].adminArea // damietta
-            val country = addresses[0].countryName
-            city = "$state, $country"
+            city = "${state.split(" ")[0]}"
         }
         return city
     }

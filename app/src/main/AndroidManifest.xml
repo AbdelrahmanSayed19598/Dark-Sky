@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.WeatherForecast">
         <activity
-            android:name=".SplashActivity"
+            android:name=".ui.activity.SplashActivity"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
 
@@ -30,7 +30,7 @@
             android:value="AIzaSyCiiu0-mIazO0kyWiNBLi4iT8OEhXa4zw0" />
 
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.activity.MainActivity"
             android:exported="false"
             >
 

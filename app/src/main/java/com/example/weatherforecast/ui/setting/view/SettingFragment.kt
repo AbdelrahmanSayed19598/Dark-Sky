@@ -1,4 +1,4 @@
-package com.example.weatherforecast.ui.view.fragment
+package com.example.weatherforecast.ui.setting.view
 
 import android.Manifest
 import android.content.Context
@@ -8,7 +8,6 @@ import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.content.res.Resources
 import android.os.Bundle
-import android.util.DisplayMetrics
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -18,15 +17,13 @@ import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import com.example.weatherforecast.MainActivity
+import com.example.weatherforecast.ui.activity.MainActivity
 import com.example.weatherforecast.R
 import com.example.weatherforecast.data.model.Repository
-import com.example.weatherforecast.lat
-import com.example.weatherforecast.lon
-import com.example.weatherforecast.ui.viewModel.HomeFragmentViewModel
-import com.example.weatherforecast.ui.viewModel.HomeFragmentViewModelFactory
-import com.example.weatherforecast.ui.viewModel.SettingViewModel
-import com.example.weatherforecast.ui.viewModel.SettingViewModelFactory
+import com.example.weatherforecast.ui.activity.lat
+import com.example.weatherforecast.ui.activity.lon
+import com.example.weatherforecast.ui.setting.viewModel.SettingViewModel
+import com.example.weatherforecast.ui.setting.viewModel.SettingViewModelFactory
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import kotlinx.android.synthetic.main.fragment_setting.*

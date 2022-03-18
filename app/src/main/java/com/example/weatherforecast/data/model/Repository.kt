@@ -3,19 +3,16 @@ package com.example.weatherforecast.data.model
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
-import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.viewModelScope
 import com.example.weatherforecast.data.localData.LocalDataSource
 import com.example.weatherforecast.data.localData.LocalDataSourceInter
 import com.example.weatherforecast.data.localData.WeatherDataBase
 import com.example.weatherforecast.data.remoteData.RemoteInterFace
 import com.example.weatherforecast.data.remoteData.RetrofitHelper
-import com.example.weatherforecast.lat
+import com.example.weatherforecast.ui.activity.lat
+import com.example.weatherforecast.ui.activity.timeZoneShared
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.lang.Exception
 
@@ -25,13 +22,16 @@ class Repository(private val remote : RemoteInterFace,private val local : LocalD
         lateinit var latitude: String
         lateinit var longitude: String
         lateinit var sharedPref: SharedPreferences
+        lateinit var editor: SharedPreferences.Editor
         lateinit var map :String
         lateinit var lang :String
         lateinit var units :String
+
         @Volatile
         private var INSTANCE: Repository? = null
         fun getRepoInstance(application: Application): Repository {
             sharedPref = application.getSharedPreferences(lat, Context.MODE_PRIVATE)
+            editor = sharedPref.edit()
             latitude = sharedPref.getString("lat", "0").toString()
             longitude = sharedPref.getString("lon", "0").toString()
             lang = sharedPref.getString("lang", "en").toString()
@@ -53,9 +53,25 @@ class Repository(private val remote : RemoteInterFace,private val local : LocalD
         return local.getAllWather()
     }
 
+    override fun getWeatherByLatLong(lat: String, lng: String): WeatherModel{
+        return local.getWeatherByLatLong(lat,lng)
+    }
+
+    override suspend fun insertAlert(weatherAlert: WeatherAlert) {
+        local.insertAlert(weatherAlert)
+    }
+
+    override fun getAllAlerts(): Flow<List<WeatherAlert>> {
+        return local.getAllAlerts()
+    }
+
+    override suspend fun deleteAlerts(id: Int) {
+        local.deleteAlerts(id)
+    }
+
     override fun getWeatherByTimeZone(timeZone: String): WeatherModel {
 
-      return  local.getWeatherByLatLon(timeZone)
+      return  local.getWeatherByTimeZone(timeZone)
     }
 
     override suspend fun insert(weatherModel: WeatherModel) {
@@ -82,6 +98,8 @@ class Repository(private val remote : RemoteInterFace,private val local : LocalD
     ): WeatherModel {
         val response = remote.getWeather(lat,lon,language,units)
         if (response.isSuccessful){
+            editor.putString(timeZoneShared, response.body()?.timezone.toString())
+            editor.apply()
             if ((latitude.toDouble() == 0.0 && longitude.toDouble() == 0.0) || map.toInt()==0){
                 deleteNotFav()
                 insert(response.body()!!)
