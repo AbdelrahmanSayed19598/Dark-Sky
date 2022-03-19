@@ -37,7 +37,7 @@
         android:fontFamily="cursive"
         android:text="DARK"
         android:textColor="@color/white"
-        android:textSize="30dp"
+        android:textSize="40dp"
 
         app:layout_constraintStart_toStartOf="@id/logo_splash"
         app:layout_constraintTop_toBottomOf="@+id/logo_splash" />
@@ -47,7 +47,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/logo_name_2"
         android:text="Sky"
-        android:textSize="30dp"
+        android:textSize="40dp"
         android:textColor="@color/white"
         android:fontFamily="cursive"
         android:layout_marginStart="8dp"
@@ -63,6 +63,7 @@
         app:layout_constraintVertical_bias="0"
         app:lottie_rawRes="@raw/splash"
         app:lottie_loop="true"
+        android:layout_marginTop="40dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
