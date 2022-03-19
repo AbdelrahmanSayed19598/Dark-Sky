@@ -1,4 +1,4 @@
-package com.example.weatherforecast.workManager
+package com.example.weatherforecast.notification
 
 import android.content.Context
 import android.content.Intent

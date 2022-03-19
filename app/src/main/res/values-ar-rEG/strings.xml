@@ -18,9 +18,9 @@
     <string name="arabic">عربية</string>
     <string name="map">الخريطة</string>
     <string name="gps">الموقع الحالي</string>
-    <string name="celsius">سيليزيوس</string>
-    <string name="fahrenheit">فهرنهايت</string>
-    <string name="kelvin">كالفين</string>
+    <string name="celsius">سيليزيوس || م/ث</string>
+    <string name="fahrenheit">فهرنهايت || م/س</string>
+    <string name="kelvin">كالفين || م/ث</string>
     <string name="setting">الاعدادات</string>
     <string name="alert">منبه</string>
     <string name="favorite">الدول المفضلة</string>
@@ -38,4 +38,5 @@
     <string name="fav_map_selection">هذا المكان تم اضافته الى الامان المفضلة بنجاح</string>
     <string name="channel_name">اسم القناة</string>
     <string name="channel_description">وصف القناة</string>
+    <string name="ok" translatable="false">حسنا</string>
 </resources>

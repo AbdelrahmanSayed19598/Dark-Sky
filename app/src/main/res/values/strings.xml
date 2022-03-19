@@ -29,9 +29,9 @@
     <string name="arabic">Arabic</string>
     <string name="map">Map</string>
     <string name="gps">current location</string>
-    <string name="celsius">Celsius</string>
-    <string name="fahrenheit">Fahrenheit</string>
-    <string name="kelvin">kelvin</string>
+    <string name="celsius">Celsius  ||  m/s</string>
+    <string name="fahrenheit">Fahrenheit || m/h</string>
+    <string name="kelvin">kelvin  || m/s</string>
     <string name="setting">Setting</string>
     <string name="alert">Alert</string>
     <string name="favorite">Favorite</string>

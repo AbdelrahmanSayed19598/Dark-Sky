@@ -22,7 +22,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.WeatherForecast">
-        <service android:name=".workManager.AlertService"
+        <service android:name=".notification.AlertService"
             android:enabled="true"
             android:exported="true"></service>
         <activity

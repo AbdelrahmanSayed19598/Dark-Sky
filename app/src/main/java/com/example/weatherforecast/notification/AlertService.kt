@@ -1,21 +1,18 @@
-package com.example.weatherforecast.workManager
+package com.example.weatherforecast.notification
 
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.Service
-import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.media.RingtoneManager
 import android.os.Build
 import android.os.IBinder
 import android.provider.Settings
-import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.example.weatherforecast.R
 import com.example.weatherforecast.ui.activity.MainActivity
-import kotlinx.android.synthetic.main.fragment_home.*
 
 class AlertService : Service() {
 

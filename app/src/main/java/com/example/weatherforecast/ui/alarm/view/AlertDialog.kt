@@ -3,13 +3,8 @@ package com.example.weatherforecast.ui.alarm.view
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
-import android.content.DialogInterface
-import android.content.Intent
 import android.content.SharedPreferences
-import android.net.Uri
-import android.os.Build
 import android.os.Bundle
-import android.provider.Settings
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -21,13 +16,11 @@ import androidx.work.*
 import com.example.weatherforecast.R
 import com.example.weatherforecast.data.model.Repository
 import com.example.weatherforecast.data.model.WeatherAlert
-import com.example.weatherforecast.ui.activity.MainActivity
 import com.example.weatherforecast.ui.activity.lat
 import com.example.weatherforecast.ui.activity.timeZoneShared
 import com.example.weatherforecast.ui.alarm.viewModel.DialogAlertsViewModel
 import com.example.weatherforecast.ui.alarm.viewModel.DialogAlertsViewModelFactory
-import com.example.weatherforecast.workManager.AlertPeriodicWorkManager
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.example.weatherforecast.notification.AlertPeriodicWorkManager
 import kotlinx.android.synthetic.main.fragment_alert_dialog.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -102,7 +95,6 @@ class AlertDialog : DialogFragment() {
         val oneHour: Long = 1000 * (3600L)
         val afterOneHour = current + oneHour
         val timeAfterOneHour = convertLongToTime(afterOneHour / 1000L, language)
-        Log.i("as", "setCardsInitialText: "+timeNow + " "+timeAfterOneHour)
         btn_From.text = currentDate.plus("\n").plus(timeNow)
         btn_to.text = currentDate.plus("\n").plus(timeAfterOneHour)
         weatherAlert = WeatherAlert(null, current / 1000, afterOneHour / 1000, current, current)

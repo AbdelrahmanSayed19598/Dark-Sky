@@ -44,6 +44,9 @@ class AlertApadter(val alerts: List<WeatherAlert>, val context: Context,private 
         holder.deleteBtn.setOnClickListener(View.OnClickListener {
                 viewModel.deleteAlerts(alerts[position].id!!)
         })
+        if(!checkTime(alerts[position])){
+            viewModel.deleteAlerts(alerts[position].id!!)
+        }
 
     }
 
@@ -64,6 +67,22 @@ class AlertApadter(val alerts: List<WeatherAlert>, val context: Context,private 
         val date = Date(TimeUnit.SECONDS.toMillis(time))
         val format = SimpleDateFormat("h:mm a", Locale(lang))
         return format.format(date)
+    }
+
+    private fun checkTime(alert: WeatherAlert): Boolean {
+        val year = Calendar.getInstance().get(Calendar.YEAR)
+        val month = Calendar.getInstance().get(Calendar.MONTH)
+        val day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
+        val date = "$day/${month + 1}/$year"
+        val dayNow = getDateMillis(date)
+        return (dayNow in alert.startDate..alert.endDate)
+    }
+    private fun getDateMillis(date: String): Long {
+        sharedPreferences = context.getSharedPreferences(lat, Context.MODE_PRIVATE)!!
+       var language = sharedPreferences.getString("lang", "en").toString()
+        val f = SimpleDateFormat("dd/MM/yyyy", Locale(language))
+        val d: Date = f.parse(date)
+        return d.time
     }
 
     override fun getItemCount(): Int {
