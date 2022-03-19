@@ -26,13 +26,14 @@ class AlertWindoManager(private val context: Context,private val icon:Int,privat
         val LAYOUT_FLAG: Int
         LAYOUT_FLAG = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
+
         } else {
             WindowManager.LayoutParams.TYPE_PHONE
         }
         windowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
         val params = WindowManager.LayoutParams(
-            WindowManager.LayoutParams.MATCH_PARENT,
-            WindowManager.LayoutParams.MATCH_PARENT,
+            (context.resources.displayMetrics.widthPixels * 0.9).toInt(),
+            WindowManager.LayoutParams.WRAP_CONTENT,
             LAYOUT_FLAG,
             WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON or WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN or WindowManager.LayoutParams.FLAG_LOCAL_FOCUS_MODE,
             PixelFormat.TRANSLUCENT

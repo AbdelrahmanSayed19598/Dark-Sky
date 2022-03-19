@@ -26,7 +26,7 @@ class AlertPeriodicWorkManager(private val context: Context, private val params:
         return Result.success()
     }
 
-    private fun getCurrentData(id: Int, timeZone: String) {
+    private suspend fun getCurrentData(id: Int, timeZone: String) {
         val currentWeather = weatherRepository.getWeatherByTimeZone(timeZone)
         val alert = weatherRepository.getAlert(id)
         var delay = getPeriod(alert)
@@ -37,23 +37,21 @@ class AlertPeriodicWorkManager(private val context: Context, private val params:
 
                 setOneTimeWorkManager(
                     delay,
-                    id.toInt(),
+                    id,
                     currentWeather.current.weather[0].description,
                     currentWeather.current.weather[0].icon
                 )
             } else {
                 setOneTimeWorkManager(
                     delay,
-                    id.toInt(),
+                    id,
                     currentWeather.alerts[0].event,
                     currentWeather.current.weather[0].icon
                 )
             }
 
         } else {
-            Log.i("as", "getCurrentData: false")
-
-            //  weatherRepository.deleteAlerts(id.toInt())
+           weatherRepository.deleteAlerts(id)
         }
 
     }
