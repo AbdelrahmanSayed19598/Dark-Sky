@@ -6,7 +6,19 @@
     android:layout_height="match_parent"
     android:background="@color/dark"
     >
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/fav_video"
+        app:lottie_autoPlay="true"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        app:lottie_rawRes="@raw/favorite"
+        app:lottie_loop="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentTop="true"
 
+        />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/fav_recycler"

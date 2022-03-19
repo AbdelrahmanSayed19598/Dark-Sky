@@ -1,5 +1,6 @@
 package com.example.weatherforecast.ui.favorite.view
 
+import android.opengl.Visibility
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -51,8 +52,17 @@ class FavoriteFragment : Fragment() {
                 .get(FavoriteViewModel::class.java)
         viewModel.getData()
         viewModel.favoriteList.observe(viewLifecycleOwner){
-            val adapter = FavoriteAdapter(it?: emptyList(),requireContext(),viewModel)
-            fav_recycler.adapter = adapter
+            if(it.isNullOrEmpty()){
+                fav_video.visibility = View.VISIBLE
+                val adapter = FavoriteAdapter(it?: emptyList(),requireContext(),viewModel)
+                fav_recycler.adapter = adapter
+            }
+            else{
+                fav_video.visibility = View.INVISIBLE
+                val adapter = FavoriteAdapter(it?: emptyList(),requireContext(),viewModel)
+                fav_recycler.adapter = adapter
+            }
+
         }
     }
 

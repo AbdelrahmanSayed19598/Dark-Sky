@@ -23,7 +23,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/language"
-                android:textColor="#000"
+                android:textColor="@color/dark"
                 android:textSize="20dp"
                 android:textStyle="bold"
                 android:layout_gravity="center_horizontal"
@@ -40,13 +40,15 @@
                     android:id="@+id/englishRadio"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/english" />
+                    android:text="@string/english"
+                    android:textColor="@color/dark"/>
 
                 <RadioButton
                     android:id="@+id/arabicRadio"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/arabic" />
+                    android:text="@string/arabic"
+                    android:textColor="@color/dark"/>
             </RadioGroup>
         </LinearLayout>
 
@@ -68,7 +70,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/location"
-                android:textColor="#000"
+                android:textColor="@color/dark"
                 android:textSize="20dp"
                 android:textStyle="bold"
                 android:layout_gravity="center_horizontal"
@@ -84,13 +86,15 @@
                     android:id="@+id/gpsRadio"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/gps" />
+                    android:text="@string/gps"
+                    android:textColor="@color/dark"/>
 
                 <RadioButton
                     android:id="@+id/mapRadio"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/map" />
+                    android:text="@string/map"
+                    android:textColor="@color/dark"/>
             </RadioGroup>
         </LinearLayout>
 
@@ -116,7 +120,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/units"
-                android:textColor="#000"
+                android:textColor="@color/dark"
                 android:textSize="20dp"
                 android:textStyle="bold"
                 android:layout_gravity="center_horizontal"
@@ -126,26 +130,30 @@
             <RadioGroup
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="16dp">
+                android:padding="16dp"
+                >
 
 
                 <RadioButton
                     android:id="@+id/celsiusRadio"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/celsius" />
+                    android:text="@string/celsius"
+                    android:textColor="@color/dark"/>
 
                 <RadioButton
                     android:id="@+id/fahrenhietRadio"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/fahrenheit" />
+                    android:text="@string/fahrenheit"
+                    android:textColor="@color/dark"/>
 
                 <RadioButton
                     android:id="@+id/kelvinRadio"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/kelvin" />
+                    android:text="@string/kelvin"
+                    android:textColor="@color/dark"/>
             </RadioGroup>
         </LinearLayout>
 

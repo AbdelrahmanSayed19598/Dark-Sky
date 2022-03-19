@@ -4,17 +4,21 @@ import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.Service
+import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.media.RingtoneManager
 import android.os.Build
 import android.os.IBinder
+import android.provider.Settings
+import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.example.weatherforecast.R
 import com.example.weatherforecast.ui.activity.MainActivity
 import kotlinx.android.synthetic.main.fragment_home.*
 
 class AlertService : Service() {
+
 
     val CHANNEL_ID = 1
     val FOREGROUND_ID = 7
@@ -25,11 +29,25 @@ class AlertService : Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        super.onStartCommand(intent, flags, startId)
         var description = intent?.getStringExtra("description")
         var icon = intent?.getStringExtra("icon")
-
         notificationChannel()
         startForeground(FOREGROUND_ID, makeNotification(description!!, icon!!))
+        if (if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                Settings.canDrawOverlays(this.applicationContext)
+
+            } else {
+                TODO("VERSION.SDK_INT < M")
+            }
+        ) {
+            // call window manager
+            val myWorkManager = AlertWindoManager(
+                this, getIcon(icon) , description
+            )
+            myWorkManager.setWindowManger()
+        }
+
         return START_NOT_STICKY
     }
 
@@ -50,7 +68,7 @@ class AlertService : Service() {
 //                NotificationCompat.BigTextStyle()
 //                    .bigText(description)
 //            )
-            .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
+            .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM))
             .setAutoCancel(true)
             .build()
     }

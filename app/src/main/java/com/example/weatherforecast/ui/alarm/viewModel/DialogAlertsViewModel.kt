@@ -10,12 +10,20 @@ import kotlinx.coroutines.launch
 
 class DialogAlertsViewModel(private val iRepo: RepositoryInterFace) :
     ViewModel() {
+    var result : Long? = null
     private var _id : MutableLiveData<Long> = MutableLiveData()
     val id =_id
 
     fun  insertAlerts(weatherAlert: WeatherAlert){
         viewModelScope.launch (Dispatchers.IO){
-           id.postValue(iRepo.insertAlert(weatherAlert))
+            val job = viewModelScope.launch(Dispatchers.IO) {
+                result= iRepo.insertAlert(weatherAlert)
+
+            }
+            job.join()
+            if (result!=null){
+                _id.postValue(result)
+            }
         }
     }
 
