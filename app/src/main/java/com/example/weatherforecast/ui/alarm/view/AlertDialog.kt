@@ -11,12 +11,15 @@ import android.view.ViewGroup
 import android.widget.TimePicker
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
+import androidx.work.*
 import com.example.weatherforecast.R
 import com.example.weatherforecast.data.model.Repository
 import com.example.weatherforecast.data.model.WeatherAlert
 import com.example.weatherforecast.ui.activity.lat
+import com.example.weatherforecast.ui.activity.timeZoneShared
 import com.example.weatherforecast.ui.alarm.viewModel.DialogAlertsViewModel
 import com.example.weatherforecast.ui.alarm.viewModel.DialogAlertsViewModelFactory
+import com.example.weatherforecast.workManager.AlertPeriodicWorkManager
 import kotlinx.android.synthetic.main.fragment_alert_dialog.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -28,9 +31,10 @@ class AlertDialog : DialogFragment() {
     lateinit var sharedPreferences: SharedPreferences
     lateinit var language: String
     private lateinit var weatherAlert: WeatherAlert
-    private val viewModel :DialogAlertsViewModel by viewModels {
+    private val viewModel: DialogAlertsViewModel by viewModels {
         DialogAlertsViewModelFactory(Repository.getRepoInstance(requireActivity().application))
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -65,11 +69,15 @@ class AlertDialog : DialogFragment() {
 
         btn_save.setOnClickListener(View.OnClickListener {
             viewModel.insertAlerts(weatherAlert)
+            viewModel.id.observe(viewLifecycleOwner) {
+                callPeriodicWorkManager(it.toInt())
+            }
             dialog?.dismiss()
         })
 
 
     }
+
     override fun onStart() {
         super.onStart()
         dialog!!.setCanceledOnTouchOutside(false)
@@ -80,14 +88,14 @@ class AlertDialog : DialogFragment() {
     }
 
     private fun setCardsInitialText(current: Long) {
-        val timeNow = convertLongToTime(current/1000L, language)
+        val timeNow = convertLongToTime(current / 1000L, language)
         val currentDate = convertCalenderToDayDate(current, language)
         val oneHour: Long = 1000 * 60 * 60 * 60
         val afterOneHour = current + oneHour
-        val timeAfterOneHour = convertLongToTime(afterOneHour/1000L, language)
+        val timeAfterOneHour = convertLongToTime(afterOneHour / 1000L, language)
         btn_From.text = currentDate.plus("\n").plus(timeNow)
         btn_to.text = currentDate.plus("\n").plus(timeAfterOneHour)
-        weatherAlert = WeatherAlert(null,current/1000,afterOneHour/1000,current,current)
+        weatherAlert = WeatherAlert(null, current / 1000, afterOneHour / 1000, current, current)
     }
 
     private fun showTimePicker(isFrom: Boolean, datePicker: Long) {
@@ -97,16 +105,16 @@ class AlertDialog : DialogFragment() {
         val listener: (TimePicker?, Int, Int) -> Unit =
             { _: TimePicker?, hour: Int, minute: Int ->
                 val time = TimeUnit.MINUTES.toSeconds(minute.toLong()) +
-                        TimeUnit.HOURS.toSeconds(hour.toLong())-(3600L*2)
+                        TimeUnit.HOURS.toSeconds(hour.toLong()) - (3600L * 2)
                 val dateString = convertCalenderToDayDate(datePicker, language)
                 val timeString = convertLongToTime(time, language)
                 val text = dateString.plus("\n").plus(timeString)
                 if (isFrom) {
                     btn_From.text = text
-                    weatherAlert.startTime =time
+                    weatherAlert.startTime = time
                 } else {
                     btn_to.text = text
-                    weatherAlert.endTime= time
+                    weatherAlert.endTime = time
                 }
             }
 
@@ -131,9 +139,9 @@ class AlertDialog : DialogFragment() {
 
                 if (view.isShown) {
                     val date = "$day/${month + 1}/$year"
-                    if (isFrom){
+                    if (isFrom) {
                         weatherAlert.startDate = getDateMillis(date)
-                    }else{
+                    } else {
                         weatherAlert.endDate = getDateMillis(date)
                     }
                     showTimePicker(isFrom, getDateMillis(date))
@@ -168,4 +176,34 @@ class AlertDialog : DialogFragment() {
         val format = SimpleDateFormat("h:mm a", Locale(language))
         return format.format(date)
     }
+
+    private fun callPeriodicWorkManager(id: Int) {
+        val shared = initSharedPref(requireContext())
+        val timeZone = shared.getString(timeZoneShared, "null")
+        val data = Data.Builder()
+            .putString(timeZoneShared, timeZone)
+            .putInt("ID", id).build()
+        val constraints = Constraints.Builder()
+            .setRequiresBatteryNotLow(true)
+            .build()
+        val periodicWorkRequest = PeriodicWorkRequest.Builder(
+            AlertPeriodicWorkManager::class.java,
+            24,TimeUnit.HOURS
+        )
+            .setInputData(data)
+            .setConstraints(constraints)
+            .addTag(id.toString())
+            .build()
+        WorkManager.getInstance(requireContext()).enqueueUniquePeriodicWork(
+            id.toString(),ExistingPeriodicWorkPolicy.REPLACE
+            ,periodicWorkRequest
+        )
+
+    }
+
+    private fun initSharedPref(requireContext: Context): SharedPreferences {
+        return requireContext.getSharedPreferences(lat, Context.MODE_PRIVATE)
+    }
+
+
 }

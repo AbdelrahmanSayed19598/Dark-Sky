@@ -41,8 +41,12 @@ class LocalDataSource(private val weatherDao: WeatherDao): LocalDataSourceInter 
        return weatherDao.getAllFavoriteData()
     }
 
-    override suspend fun insertAlert(weatherAlert: WeatherAlert) {
-        weatherDao.insertAlert(weatherAlert)
+    override fun getAlert(id: Int): WeatherAlert {
+        return weatherDao.getAlert(id)
+    }
+
+    override suspend fun insertAlert(weatherAlert: WeatherAlert):Long {
+      return  weatherDao.insertAlert(weatherAlert)
     }
 
     override fun getAllAlerts(): Flow<List<WeatherAlert>> {

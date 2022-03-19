@@ -29,7 +29,7 @@
         android:clickable="true"
         android:backgroundTint="#ffffff"
         app:borderWidth="0dp"
-        app:srcCompat="@drawable/ic_map"
+        app:srcCompat="@drawable/ic_alarm_svgrepo_com"
         app:tint="#E10B1142"
 
         />

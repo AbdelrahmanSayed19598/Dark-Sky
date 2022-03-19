@@ -36,4 +36,6 @@
     <string name="noCountry">لا يوجد انترنت ولا يوجد بيانات مسجلة</string>
     <string name="map_selection">تم تحديد الموقع المختار بنجاح</string>
     <string name="fav_map_selection">هذا المكان تم اضافته الى الامان المفضلة بنجاح</string>
+    <string name="channel_name">اسم القناة</string>
+    <string name="channel_description">وصف القناة</string>
 </resources>

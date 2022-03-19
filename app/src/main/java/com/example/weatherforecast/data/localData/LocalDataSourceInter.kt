@@ -23,8 +23,10 @@ interface LocalDataSourceInter {
     fun getAllFavoriteData(): List<WeatherModel>
 
 
-    suspend fun  insertAlert(weatherAlert: WeatherAlert)
+    suspend fun  insertAlert(weatherAlert: WeatherAlert):Long
     fun getAllAlerts():Flow<List<WeatherAlert>>
     suspend fun deleteAlerts(id:Int)
+    fun getAlert(id:Int):WeatherAlert
+
 
 }

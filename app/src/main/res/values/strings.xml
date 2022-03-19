@@ -62,5 +62,7 @@
     <string name="frome">Frome</string>
     <string name="to">to</string>
     <string name="save">save</string>
+    <string name="channel_name">channel name</string>
+    <string name="channel_description">channel description</string>
 
 </resources>

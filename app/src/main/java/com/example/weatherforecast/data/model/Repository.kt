@@ -47,18 +47,37 @@ class Repository(private val remote : RemoteInterFace,private val local : LocalD
                 }
             }
         }
+
+
+
+        fun getRepoInstance(context: Context): Repository {
+            return INSTANCE ?: synchronized(this) {
+                Repository(RetrofitHelper,
+                    LocalDataSource(WeatherDataBase.getDataBase(context).weatherDao())
+
+                ).also {
+                    INSTANCE = it
+                }
+            }
+        }
     }
+
+
 
     override fun getAllWather(): Flow<List<WeatherModel>> {
         return local.getAllWather()
+    }
+
+    override fun getAlert(id: Int): WeatherAlert {
+        return local.getAlert(id)
     }
 
     override fun getWeatherByLatLong(lat: String, lng: String): WeatherModel{
         return local.getWeatherByLatLong(lat,lng)
     }
 
-    override suspend fun insertAlert(weatherAlert: WeatherAlert) {
-        local.insertAlert(weatherAlert)
+    override suspend fun insertAlert(weatherAlert: WeatherAlert):Long {
+        return local.insertAlert(weatherAlert)
     }
 
     override fun getAllAlerts(): Flow<List<WeatherAlert>> {

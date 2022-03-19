@@ -33,7 +33,7 @@ interface WeatherDao {
     fun getWeatherByLatLong(lat: String, lng: String): WeatherModel
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun  insertAlert(weatherAlert: WeatherAlert)
+    suspend fun  insertAlert(weatherAlert: WeatherAlert):Long
 
     @Query("SELECT * FROM alert")
     fun getAllAlerts():Flow<List<WeatherAlert>>
@@ -41,6 +41,7 @@ interface WeatherDao {
     @Query("DELETE FROM alert WHERE id =:id")
     suspend fun deleteAlerts(id:Int)
 
-
+    @Query("Select * FROM alert WHERE id =:id")
+     fun getAlert(id:Int):WeatherAlert
 
 }
