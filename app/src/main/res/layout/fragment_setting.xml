@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/dark">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/language"
@@ -17,16 +18,18 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingEnd="32dp"
+            android:background="@color/dark">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
                 android:text="@string/language"
-                android:textColor="@color/dark"
+                android:textColor="@color/white"
                 android:textSize="20dp"
                 android:textStyle="bold"
-                android:layout_gravity="center_horizontal"
 
                 />
 
@@ -41,14 +44,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/english"
-                    android:textColor="@color/dark"/>
+                    android:textColor="@color/white"/>
 
                 <RadioButton
                     android:id="@+id/arabicRadio"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/arabic"
-                    android:textColor="@color/dark"/>
+                    android:textColor="@color/white"/>
             </RadioGroup>
         </LinearLayout>
 
@@ -64,16 +67,18 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:background="@color/dark"
+            >
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
                 android:text="@string/location"
-                android:textColor="@color/dark"
+                android:textColor="@color/white"
                 android:textSize="20dp"
                 android:textStyle="bold"
-                android:layout_gravity="center_horizontal"
 
                 />
 
@@ -87,14 +92,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/gps"
-                    android:textColor="@color/dark"/>
+                    android:textColor="@color/white"/>
 
                 <RadioButton
                     android:id="@+id/mapRadio"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/map"
-                    android:textColor="@color/dark"/>
+                    android:textColor="@color/white"/>
             </RadioGroup>
         </LinearLayout>
 
@@ -113,17 +118,18 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:background="@color/dark">
 
             <TextView
 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
                 android:text="@string/units"
-                android:textColor="@color/dark"
+                android:textColor="@color/white"
                 android:textSize="20dp"
                 android:textStyle="bold"
-                android:layout_gravity="center_horizontal"
 
                 />
 
@@ -139,21 +145,21 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/celsius"
-                    android:textColor="@color/dark"/>
+                    android:textColor="@color/white"/>
 
                 <RadioButton
                     android:id="@+id/fahrenhietRadio"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/fahrenheit"
-                    android:textColor="@color/dark"/>
+                    android:textColor="@color/white"/>
 
                 <RadioButton
                     android:id="@+id/kelvinRadio"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/kelvin"
-                    android:textColor="@color/dark"/>
+                    android:textColor="@color/white"/>
             </RadioGroup>
         </LinearLayout>
 

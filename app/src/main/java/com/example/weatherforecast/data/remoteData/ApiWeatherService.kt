@@ -5,7 +5,7 @@ import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-const val API_KEY ="dff36c85b0831f68305233964550b263"
+const val API_KEY ="6bfac4a32ea2220f97cade47d4ac244b"
 const val EXCLUDE ="minutely"
 //https://api.openweathermap.org/data/2.5/onecall?lat=33.44&lon=-94.04&exclude=minutely&appid=dff36c85b0831f68305233964550b263
 interface ApiWeatherService {

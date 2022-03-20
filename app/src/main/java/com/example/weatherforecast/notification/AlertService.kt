@@ -18,7 +18,7 @@ class AlertService : Service() {
 
 
     val CHANNEL_ID = 1
-    val FOREGROUND_ID = 7
+    val FOREGROUND_ID = 2
     var notificationManager: NotificationManager? = null
     override fun onBind(p0: Intent?): IBinder? {
 
@@ -38,7 +38,6 @@ class AlertService : Service() {
                 TODO("VERSION.SDK_INT < M")
             }
         ) {
-            // call window manager
             val myWorkManager = AlertWindoManager(
                 this, getIcon(icon) , description
             )

@@ -155,7 +155,7 @@ class HomeFragment : Fragment() {
         val geocoder = Geocoder(context, Locale(lang))
         val addresses: List<Address> = geocoder.getFromLocation(lat, lon, 1)
         if (addresses.isNotEmpty()) {
-            val state = addresses[0].adminArea // damietta
+            val state = addresses[0].adminArea 
             val country = addresses[0].countryName
             city = "$state"
         }

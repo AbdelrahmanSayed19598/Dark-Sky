@@ -18,7 +18,6 @@ class AlertPeriodicWorkManager(private val context: Context, private val params:
     lateinit var language: String
     val weatherRepository = Repository.getRepoInstance(context)
     override suspend fun doWork(): Result {
-        Log.i("as", "getCurrentData: doWork")
         val inputData = inputData
         val id = inputData.getInt("ID",0).toString()
         val timeZone = inputData.getString(timeZoneShared).toString()
@@ -32,7 +31,6 @@ class AlertPeriodicWorkManager(private val context: Context, private val params:
         var delay = getPeriod(alert)
         //  val current = Calendar.getInstance().timeInMillis
         if (checkTime(alert)) {
-            Log.i("as", "getCurrentData: true")
             if (currentWeather.alerts.isNullOrEmpty()) {
 
                 setOneTimeWorkManager(

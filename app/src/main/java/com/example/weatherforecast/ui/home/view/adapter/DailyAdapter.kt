@@ -22,6 +22,7 @@ class DailyAdapter(val dailyPojo: List<Daily>,val context: Context) : RecyclerVi
         val imgDaily = itemView.daily_icon!!
         val statusDaily = itemView.weather_status!!
         val tempratureProbabilty = itemView.temprature_probability!!
+        val cardview = itemView.daily_card_view
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -31,10 +32,14 @@ class DailyAdapter(val dailyPojo: List<Daily>,val context: Context) : RecyclerVi
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+
         sharedPreferences = context.getSharedPreferences(lat, Context.MODE_PRIVATE)
         var lang = sharedPreferences.getString("lang", "en").toString()
         var unit =sharedPreferences.getString("unit", "metric")
 
+        if(position==0){
+            holder.cardview.setBackgroundResource(R.color.dark)
+        }
         holder.dayTxt.text = dayFormat(dailyPojo[position].dt.toInt(),lang)
         holder.statusDaily.text = dailyPojo[position].weather[0].description.toString()
 
