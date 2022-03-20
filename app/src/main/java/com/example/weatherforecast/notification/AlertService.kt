@@ -4,9 +4,11 @@ import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.Service
+import android.content.ContentResolver
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.media.RingtoneManager
+import android.net.Uri
 import android.os.Build
 import android.os.IBinder
 import android.provider.Settings
@@ -60,11 +62,9 @@ class AlertService : Service() {
             .setContentTitle("Weather Alarm")
             .setLargeIcon(bitmap)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-//            .setStyle(
-//                NotificationCompat.BigTextStyle()
-//                    .bigText(description)
-//            )
-            .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM))
+            .setSound(Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + this.packageName +
+                    "/" + R.raw.alert))
+
             .setAutoCancel(true)
             .build()
     }

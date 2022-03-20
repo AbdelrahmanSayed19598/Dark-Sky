@@ -107,6 +107,8 @@ class SettingFragment : Fragment() {
     private fun changeUnite(units: String) {
         editor.putString("unit", units)
         editor.apply()
+        navControler.navigate(R.id.homeFragment)
+
     }
 
 
@@ -149,7 +151,10 @@ class SettingFragment : Fragment() {
             Toast.LENGTH_SHORT
         ).show()
 
-        navControler.navigate(R.id.homeFragment)
+        val refresh = Intent(requireContext(), MainActivity::class.java)
+        activity?.finish()
+
+        startActivity(refresh)
     }
 
     private fun checkLocationPermision() {
