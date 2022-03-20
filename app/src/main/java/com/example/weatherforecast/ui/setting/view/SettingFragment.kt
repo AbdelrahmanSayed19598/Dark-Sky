@@ -7,6 +7,7 @@ import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.content.res.Resources
+import android.net.ConnectivityManager
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -76,28 +77,85 @@ class SettingFragment : Fragment() {
         gpsRadio.isChecked = true
 
         arabicRadio.setOnClickListener(View.OnClickListener {
-            changeLang("ar")
+            if (isNetworkAvailable(requireContext())) {
+                changeLang("ar")
+            } else {
+                Toast.makeText(
+                    requireContext(),
+                    getString(R.string.check_network),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+
         })
 
         englishRadio.setOnClickListener(View.OnClickListener {
-            changeLang("en")
+            if (isNetworkAvailable(requireContext())) {
+                changeLang("en")
+            } else {
+                Toast.makeText(
+                    requireContext(),
+                    getString(R.string.check_network),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         })
 
         celsiusRadio.setOnClickListener(View.OnClickListener {
-            changeUnite("metric")
+            if (isNetworkAvailable(requireContext())) {
+                changeUnite("metric")
+            } else {
+                Toast.makeText(
+                    requireContext(),
+                    getString(R.string.check_network),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         })
         kelvinRadio.setOnClickListener(View.OnClickListener {
-            changeUnite("standard")
+            if (isNetworkAvailable(requireContext())) {
+                changeUnite("standard")
+            } else {
+                Toast.makeText(
+                    requireContext(),
+                    getString(R.string.check_network),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         })
         fahrenhietRadio.setOnClickListener(View.OnClickListener {
-            changeUnite("imperial")
+            if (isNetworkAvailable(requireContext())) {
+                changeUnite("imperial")
+            } else {
+                Toast.makeText(
+                    requireContext(),
+                    getString(R.string.check_network),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         })
 
         gpsRadio.setOnClickListener(View.OnClickListener {
-            getcurrentLocation()
+            if (isNetworkAvailable(requireContext())) {
+                getcurrentLocation()
+            } else {
+                Toast.makeText(
+                    requireContext(),
+                    getString(R.string.check_network),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         })
         mapRadio.setOnClickListener(View.OnClickListener {
-            Navigation.findNavController(view).navigate(R.id.action_settingFragment_to_map)
+            if (isNetworkAvailable(requireContext())) {
+                Navigation.findNavController(view).navigate(R.id.action_settingFragment_to_map)
+            } else {
+                Toast.makeText(
+                    requireContext(),
+                    getString(R.string.check_network),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         })
 
 
@@ -114,10 +172,10 @@ class SettingFragment : Fragment() {
 
     private fun changeLang(lang: String) {
         editor.putString("lang", lang)
+        editor.putBoolean("nav", true)
         editor.apply()
         viewModel.refreshData()
         setLocale(lang)
-        //navControler.navigate(R.id.homeFragment)
     }
 
     private fun setLocale(lang: String) {
@@ -184,5 +242,12 @@ class SettingFragment : Fragment() {
                 editor.apply()
             }
         }
+    }
+
+    fun isNetworkAvailable(context: Context): Boolean {
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetworkInfo = connectivityManager.activeNetworkInfo
+        return activeNetworkInfo != null && activeNetworkInfo?.isConnected == true
     }
 }

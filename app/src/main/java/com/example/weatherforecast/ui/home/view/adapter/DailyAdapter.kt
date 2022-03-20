@@ -39,8 +39,11 @@ class DailyAdapter(val dailyPojo: List<Daily>,val context: Context) : RecyclerVi
 
         if(position==0){
             holder.cardview.setBackgroundResource(R.color.dark)
+            holder.dayTxt.text = context.getString(R.string.today)
+        }else{
+            holder.dayTxt.text = dayFormat(dailyPojo[position].dt.toInt(),lang)
+
         }
-        holder.dayTxt.text = dayFormat(dailyPojo[position].dt.toInt(),lang)
         holder.statusDaily.text = dailyPojo[position].weather[0].description.toString()
 
         var min = dailyPojo[position].temp.min.toInt()

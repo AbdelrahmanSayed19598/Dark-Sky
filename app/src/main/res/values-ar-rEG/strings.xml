@@ -39,4 +39,6 @@
     <string name="channel_name">اسم القناة</string>
     <string name="channel_description">وصف القناة</string>
     <string name="ok">حسنا</string>
+    <string name="app_name">دارك سكاي</string>
+    <string name="today">اليوم</string>
 </resources>

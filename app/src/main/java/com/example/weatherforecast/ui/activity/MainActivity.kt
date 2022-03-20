@@ -30,6 +30,7 @@ const val timeZoneShared = "time"
 class MainActivity : AppCompatActivity() {
     lateinit var lang: String
     lateinit var unit: String
+    var nav: Boolean = false
     lateinit var drawerLayout: DrawerLayout
     lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     lateinit var sharedPreferences: SharedPreferences
@@ -47,6 +48,8 @@ class MainActivity : AppCompatActivity() {
 
         lang = sharedPreferences.getString("lang", "en").toString()
         unit = sharedPreferences.getString("unit", "metric").toString()
+        nav = sharedPreferences.getBoolean("nav", false)
+
         setLocale(lang)
         setContentView(R.layout.activity_main)
 
@@ -64,8 +67,11 @@ class MainActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
-        checkLocationPermision()
-
+        if (!nav){
+            checkLocationPermision()
+        }else{
+            nav =false
+        }
 
 
 
@@ -99,6 +105,7 @@ class MainActivity : AppCompatActivity() {
 
 
     }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
         if (item.itemId == android.R.id.home) {
