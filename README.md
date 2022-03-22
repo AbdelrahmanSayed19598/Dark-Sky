@@ -8,7 +8,7 @@ an android app that lets you :
 * Get weather condations for your current location  
 * Get weather condations for specific location on the map
 * Add a specific city to your favorites to keep track of its weather
-* Add alert time which will notify you of your current weather condition at the time that you set
+* Add alert with sound time which will notify you of your current weather condition at the time that you set
 * Supports Arabic and English languages
 * Supports different units (celsius,fahrenheit,kelvin)
 
