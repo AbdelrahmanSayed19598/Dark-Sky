@@ -14,9 +14,9 @@ an android app that lets you :
 
 #Permissions
 
-*Location Permission
-*Network Permission
-*Overlay Permission
+* Location Permission
+* Network Permission
+* Overlay Permission
 
 #Screen Shots
 
